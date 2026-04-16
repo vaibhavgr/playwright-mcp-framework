@@ -1,0 +1,407 @@
+{
+  "config": {
+    "configFile": "G:\\Vaibhav\\MCPAutomation\\playwright.config.ts",
+    "rootDir": "G:/Vaibhav/MCPAutomation/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "G:/Vaibhav/MCPAutomation/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "Web",
+        "name": "Web",
+        "testDir": "G:/Vaibhav/MCPAutomation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "G:/Vaibhav/MCPAutomation/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "Mobile_IOS",
+        "name": "Mobile_IOS",
+        "testDir": "G:/Vaibhav/MCPAutomation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "G:/Vaibhav/MCPAutomation/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "Mobile_Android",
+        "name": "Mobile_Android",
+        "testDir": "G:/Vaibhav/MCPAutomation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "reports/html"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/json/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "example.spec.ts",
+      "file": "example.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Open Automation Exercise website",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Web",
+              "projectName": "Web",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 10400,
+                  "error": {
+                    "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n\n    at G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts:5:14",
+                    "location": {
+                      "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                      "column": 14,
+                      "line": 5
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 3 |\u001b[39m test(\u001b[32m'Open Automation Exercise website'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   \u001b[90m// Navigate to the base URL configured for the current environment (e.g. dev, qa)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m   \u001b[90m// Verify that the page has loaded properly by checking the title\u001b[39m\n \u001b[90m 8 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Automation Exercise/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                        "column": 14,
+                        "line": 5
+                      },
+                      "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 3 |\u001b[39m test(\u001b[32m'Open Automation Exercise website'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   \u001b[90m// Navigate to the base URL configured for the current environment (e.g. dev, qa)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m   \u001b[90m// Verify that the page has loaded properly by checking the title\u001b[39m\n \u001b[90m 8 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Automation Exercise/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts:5:14\u001b[22m"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-16T18:20:41.821Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Web\\video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Web\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Web\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                    "column": 14,
+                    "line": 5
+                  }
+                },
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9439,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-04-16T18:21:03.898Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Web-retry1\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Web-retry1\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "flaky"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-178f9642074ef23f73a3",
+          "file": "example.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "Open Automation Exercise website",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile_IOS",
+              "projectName": "Mobile_IOS",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 11800,
+                  "error": {
+                    "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n\n    at G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts:5:14",
+                    "location": {
+                      "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                      "column": 14,
+                      "line": 5
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 3 |\u001b[39m test(\u001b[32m'Open Automation Exercise website'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   \u001b[90m// Navigate to the base URL configured for the current environment (e.g. dev, qa)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m   \u001b[90m// Verify that the page has loaded properly by checking the title\u001b[39m\n \u001b[90m 8 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Automation Exercise/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                        "column": 14,
+                        "line": 5
+                      },
+                      "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 3 |\u001b[39m test(\u001b[32m'Open Automation Exercise website'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   \u001b[90m// Navigate to the base URL configured for the current environment (e.g. dev, qa)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m   \u001b[90m// Verify that the page has loaded properly by checking the title\u001b[39m\n \u001b[90m 8 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Automation Exercise/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts:5:14\u001b[22m"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-16T18:20:41.812Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-IOS\\video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-IOS\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-IOS\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                    "column": 14,
+                    "line": 5
+                  }
+                },
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 15681,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-04-16T18:21:03.897Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-IOS-retry1\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-IOS-retry1\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "flaky"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-e235f87b00dea078665b",
+          "file": "example.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "Open Automation Exercise website",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile_Android",
+              "projectName": "Mobile_Android",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5497,
+                  "error": {
+                    "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n\n    at G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts:5:14",
+                    "location": {
+                      "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                      "column": 14,
+                      "line": 5
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 3 |\u001b[39m test(\u001b[32m'Open Automation Exercise website'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   \u001b[90m// Navigate to the base URL configured for the current environment (e.g. dev, qa)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m   \u001b[90m// Verify that the page has loaded properly by checking the title\u001b[39m\n \u001b[90m 8 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Automation Exercise/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                        "column": 14,
+                        "line": 5
+                      },
+                      "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"https://automationexercise.com/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 3 |\u001b[39m test(\u001b[32m'Open Automation Exercise website'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   \u001b[90m// Navigate to the base URL configured for the current environment (e.g. dev, qa)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m   \u001b[90m// Verify that the page has loaded properly by checking the title\u001b[39m\n \u001b[90m 8 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Automation Exercise/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts:5:14\u001b[22m"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-16T18:21:21.920Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-Android\\video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-Android\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-Android\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "G:\\Vaibhav\\MCPAutomation\\tests\\example.spec.ts",
+                    "column": 14,
+                    "line": 5
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7501,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-04-16T18:21:32.400Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-Android-retry1\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "G:\\Vaibhav\\MCPAutomation\\test-results\\example-Open-Automation-Exercise-website-Mobile-Android-retry1\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "flaky"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-c5cf9d71d1898d72a772",
+          "file": "example.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-16T18:20:40.318Z",
+    "duration": 62830.619,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 3
+  }
+}
