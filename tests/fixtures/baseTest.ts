@@ -1,20 +1,25 @@
 import { test as baseTest } from '@playwright/test';
+
+
 import { LoginPage } from '../../pageObjects/loginPage';
 import { CartPage } from '../../pageObjects/cartPage';
-import { ContactUsPage } from '../../pageObjects/contactusPage';
+import { ContactUsPage } from '../../pageObjects/contactUsPage';
 import { HomePage } from '../../pageObjects/homePage';
 import { ProductPage } from '../../pageObjects/productsPage';
 import { SignUpLoginPage } from '../../pageObjects/SignupLoginPage';
+import { ApiUtils } from '../../utils/APIUtils'
 
 // 1. Declare the type of your custom fixtures
-interface MyFixtures  {
+type MyFixtures = {
     loginPage: LoginPage;
-    cartPage : CartPage;
-    contactusPage: ContactUsPage;
+    cartPage: CartPage;
+    contactUsPage: ContactUsPage;
     homePage: HomePage;
     productPage: ProductPage;
     signUpLoginPage: SignUpLoginPage;
+    apiUtil: ApiUtils;
 };
+
 
 // 2. Pass the type <MyFixtures> into the extend function
 export const test = baseTest.extend<MyFixtures>({
@@ -28,7 +33,7 @@ export const test = baseTest.extend<MyFixtures>({
         await use(cartPage);
     },
 
-    contactusPage: async ({ page }, use) => {
+    contactUsPage: async ({ page }, use) => {
         const contactusPage = new ContactUsPage(page);
         await use(contactusPage);
     },
@@ -47,4 +52,13 @@ export const test = baseTest.extend<MyFixtures>({
         const signUpLoginPage = new SignUpLoginPage(page);
         await use(signUpLoginPage);
     },
+
+    apiUtil: async ({ request }, use) => {
+        const apiUtil = new ApiUtils(request);
+        await use(apiUtil);
+    },
+
+
+
+
 });
