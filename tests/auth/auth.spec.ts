@@ -2,8 +2,9 @@ import { test} from '../fixtures/baseTest';
 
 test.describe('Auth Tests', () => {
 
-    test('Register User', async ({ signUpLoginPage }) => {
-        // register flow
+    test.only('Register User', async ({ signUpLoginPage }) => {
+        await signUpLoginPage.goto();
+        await signUpLoginPage.registerUser("Vaibhav" , 'vaibhav@gmail.com');
     });
 
     test('Login with valid credentials', async ({ loginPage }) => {
