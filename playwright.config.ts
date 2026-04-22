@@ -17,10 +17,10 @@ export default defineConfig({
     video: 'retain-on-failure'
   },
 
-  // reporter: [
-  //   ['html', { outputFolder: 'reports/html' }],
-  //   ['json', { outputFile: 'reports/json/results.json' }]
-  // ],
+  reporter: [
+    ['html', { outputFolder: 'reports/html' }],
+    ['json', { outputFile: 'reports/json/results.json' }]
+  ],
 
   projects: [
     {
