@@ -34,7 +34,7 @@ export class ProductPage {
     //Actions
     async listofProducts() {
         const print = await this.productsList.textContent()
-        console.log(print)
+       
     }
 
     async clickViewProductFirst() {
@@ -54,6 +54,6 @@ export class ProductPage {
         await expect(this.productPrice).toBeVisible();
         await expect(this.productAvailability).toBeVisible();
         await expect(this.productCondition).toBeVisible();
-        await expect(this.productBrand).toBeVisible();//yeh change karunga alag alag karunga .. 
+        await expect(this.productBrand).toBeVisible();
     }
 }
