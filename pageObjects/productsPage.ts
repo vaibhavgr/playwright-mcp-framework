@@ -11,6 +11,10 @@ export class ProductPage {
     readonly productAvailability: Locator;
     readonly productCondition: Locator;
     readonly productBrand: Locator;
+    readonly productHeader : Locator;
+    readonly searchProductfill : Locator;
+    readonly searchProductIcon : Locator
+    readonly searchProductListName : Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -24,11 +28,19 @@ export class ProductPage {
         this.productAvailability = page.locator('.product-information p').filter({ hasText: 'Availability:' });
         this.productCondition = page.locator('.product-information p').filter({ hasText: 'Condition:' });
         this.productBrand = page.locator('.product-information p').filter({ hasText: 'Brand:' });
+        this.productHeader = page.getByRole('link', { name: 'Products' })
+        this.searchProductfill = page.locator('#search_product')
+        this.searchProductIcon = page.locator(`#submit_search`)
+        this.searchProductListName = page.locator('.productinfo p')
     }
 
     //Navigation 
     async goto() {
         await this.page.goto('/products');
+    }
+
+      async navigateToProductPage() {
+        await this.productHeader.click()
     }
 
     //Actions
@@ -56,4 +68,19 @@ export class ProductPage {
         await expect(this.productCondition).toBeVisible();
         await expect(this.productBrand).toBeVisible();
     }
+
+    async verifySearchName(searchProduct : string){
+            const firstt = this.searchProductListName.first()
+            await expect(firstt).toContainText(searchProduct)
+    }
+
+
+    async searchProduct(productName : string){
+        await this.searchProductfill.fill(productName)
+        await this.searchProductIcon.click()
+        const name = await this.searchProductListName.allTextContents()
+        console.log(name)
+        
+    }
+
 }

@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 
 test.describe('Products Tests', () => {
 
-  test.only('Test Case 8: Verify All Products and product detail page', async ({ page, homePage, productPage }) => {
+  test('Test Case 8: Verify All Products and product detail page', async ({ page, homePage, productPage }) => {
     // 1. Launch browser 
     // 2. Navigate to url 'http://automationexercise.com'
     await homePage.goto();
@@ -12,8 +12,7 @@ test.describe('Products Tests', () => {
     await expect(page).toHaveTitle(/Automation Exercise/);
 
     // 4. Click on 'Products' button
-    // The link text in header is 'Products'
-    await page.getByRole('link', { name: 'Products' }).click();
+    await productPage.navigateToProductPage();
 
     // 5. Verify user is navigated to ALL PRODUCTS page successfully
     await expect(page).toHaveURL(/\/products/);
@@ -29,5 +28,32 @@ test.describe('Products Tests', () => {
     // 9. Verify that detail detail is visible: product name, category, price, availability, condition, brand
     await productPage.verifyProductDetails();
   });
+
+
+  test.only('Test Case 9 : Search Product', async({page, homePage , productPage})=>{
+    // 1. Launch browser 
+    // 2. Navigate to url 'http://automationexercise.com'
+    await homePage.goto();
+
+    // 3. Verify that home page is visible successfully
+    await expect(page).toHaveTitle(/Automation Exercise/);
+
+    // 4. Click on 'Products' button  
+    await productPage.navigateToProductPage();
+
+    //Search Products 
+    const searchproduct : string= "Jeans"
+    await productPage.searchProduct(searchproduct)
+
+    
+    await productPage.verifySearchName(searchproduct)
+    
+
+    
+
+    
+
+  })
+  
 
 });
