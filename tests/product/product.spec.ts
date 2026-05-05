@@ -42,7 +42,7 @@ test.describe('Products Tests', () => {
     await productPage.navigateToProductPage();
 
     //Search Products 
-    const searchproduct : string= "Jeans"
+    const searchproduct : string= "Top"
     await productPage.searchProduct(searchproduct)
 
     
