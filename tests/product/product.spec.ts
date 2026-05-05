@@ -30,7 +30,7 @@ test.describe('Products Tests', () => {
   });
 
 
-  test.only('Test Case 9 : Search Product', async({page, homePage , productPage})=>{
+  test('Test Case 9 : Search Product', async({page, homePage , productPage})=>{
     // 1. Launch browser 
     // 2. Navigate to url 'http://automationexercise.com'
     await homePage.goto();
@@ -46,7 +46,7 @@ test.describe('Products Tests', () => {
     await productPage.searchProduct(searchproduct)
 
     
-    await productPage.verifySearchName(searchproduct)
+    await productPage.verifySearchName()
     
 
     

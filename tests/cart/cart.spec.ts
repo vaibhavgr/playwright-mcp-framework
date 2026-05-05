@@ -1,64 +1,40 @@
-import { test as baseTest } from '@playwright/test';
+import { test } from '../fixtures/baseTest';
+import { expect } from '@playwright/test';
+
+test.describe('Products Tests', () => {
+
+  test('Test Case 12: Login & Add Products in Cart', async ({ page, homePage, productPage, loginPage }) => {
+    // 1. Launch browser 
+    // 2. Navigate to url 'http://automationexercise.com'
+    await homePage.goto();
+
+    // 3. Verify that home page is visible successfully
+    await expect(page).toHaveTitle(/Automation Exercise/);
+
+    //Login 
+    //await loginPage.loginvalidUser(ValidUserDetails.email, ValidUserDetails.password)
+    await loginPage.loginBtnClick()
+
+    // 4. Click on 'Products' button
+    await productPage.navigateToProductPage();
+
+    // 5. Verify user is navigated to ALL PRODUCTS page successfully
+    await expect(page).toHaveURL(/\/products/);
+    await productPage.verifyallProductsText();
+
+    // 6. The products list is visible
+    await productPage.listofProducts();
+
+    // 7. Click on 'View Product' of first product
+    await productPage.clickViewProductFirst();
+
+    // 8. User is landed to product detail page
+    // 9. Verify that detail detail is visible: product name, category, price, availability, condition, brand
+    await productPage.verifyProductDetails();
+  });
 
 
-import { LoginPage } from '../../pageObjects/loginPage';
-import { CartPage } from '../../pageObjects/cartPage';
-import { ContactUsPage } from '../../pageObjects/contactUsPage';
-import { HomePage } from '../../pageObjects/homePage';
-import { ProductPage } from '../../pageObjects/productsPage';
-import { SignUpLoginPage } from '../../pageObjects/SignupLoginPage';
-import { ApiUtils } from '../../utils/APIUtils'
-
-// 1. Declare the type of your custom fixtures
-type MyFixtures = {
-    loginPage: LoginPage;
-    cartPage: CartPage;
-    contactUsPage: ContactUsPage;
-    homePage: HomePage;
-    productPage: ProductPage;
-    signUpLoginPage: SignUpLoginPage;
-    apiUtil: ApiUtils;
-};
-
-
-// 2. Pass the type <MyFixtures> into the extend function
-export const test = baseTest.extend<MyFixtures>({
-    loginPage: async ({ page }, use) => {
-        const loginPage = new LoginPage(page);
-        await use(loginPage);
-    },
-
-    cartPage: async ({ page }, use) => {
-        const cartPage = new CartPage(page);
-        await use(cartPage);
-    },
-
-    contactUsPage: async ({ page }, use) => {
-        const contactusPage = new ContactUsPage(page);
-        await use(contactusPage);
-    },
-
-    homePage: async ({ page }, use) => {
-        const homePage = new HomePage(page);
-        await use(homePage);
-    },
-
-    productPage: async ({ page }, use) => {
-        const productPage = new ProductPage(page);
-        await use(productPage);
-    },
-
-    signUpLoginPage: async ({ page }, use) => {
-        const signUpLoginPage = new SignUpLoginPage(page);
-        await use(signUpLoginPage);
-    },
-
-    apiUtil: async ({ request }, use) => {
-        const apiUtil = new ApiUtils(request);
-        await use(apiUtil);
-    },
-
-
-
+ 
+  
 
 });

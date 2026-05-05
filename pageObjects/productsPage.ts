@@ -71,7 +71,7 @@ export class ProductPage {
         await expect(this.productBrand).toBeVisible();
     }
 
-    async verifySearchName(searchProduct: string) {
+    async verifySearchName() {
         // Verify 'SEARCHED PRODUCTS' heading is visible
         await expect(this.searchedProductsHeader).toBeVisible();
 

@@ -21,6 +21,7 @@ export interface invalidloginUser {
 export interface existingUser {
     name: string
     email: string
+    password: string
 }
 
 
@@ -51,6 +52,7 @@ export const getexistingUser = (): existingUser => {
     return {
         name : UniqueGenerator.getUniqueName(),
         email: "rcb01@gmail.com",
+        password: 'Password@123',
         
     };
 };

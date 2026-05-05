@@ -20,7 +20,7 @@ export class LoginPage {
         await this.page.goto('/login');
     }
 
-    async loginvalidUser(email : string , password : string){
+    async loginValidUser(email : string , password : string){
         await  this.loginEmail.fill(email)
         await this.loginPassword.fill(password)
        

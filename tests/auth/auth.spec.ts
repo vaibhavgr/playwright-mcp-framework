@@ -42,7 +42,7 @@ test.describe('Auth Tests', () => {
 
         //logout and login with valid user
         await homePage.logoutheaderBtn() // clickLogout() change name 
-        await loginPage.loginvalidUser(ValidUserDetails.email, ValidUserDetails.password)
+        await loginPage.loginValidUser(ValidUserDetails.email, ValidUserDetails.password)
         await loginPage.loginBtnClick()
 
         //delete login user
@@ -60,6 +60,15 @@ test.describe('Auth Tests', () => {
 
         //assertion Verify error 'Your email or password is incorrect!' is visible
 
+    });
+
+    test.only('Login with Valid User', async ({ loginPage, homePage }) => {
+        const existingUserData = getexistingUser();
+        await loginPage.goto();
+
+        //logout and login with valid user
+        await loginPage.loginValidUser(existingUserData.email, existingUserData.password)
+        await loginPage.loginBtnClick()
     });
 
     test('Register with existing email', async ({ signUpLoginPage }) => {
