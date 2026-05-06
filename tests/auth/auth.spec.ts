@@ -62,7 +62,7 @@ test.describe('Auth Tests', () => {
 
     });
 
-    test.only('Login with Valid User', async ({ loginPage, homePage }) => {
+    test('Login with Valid User', async ({ loginPage, homePage }) => {
         const existingUserData = getexistingUser();
         await loginPage.goto();
 

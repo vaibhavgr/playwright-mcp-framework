@@ -16,6 +16,12 @@ export class ProductPage {
     readonly searchProductIcon: Locator;
     readonly searchProductListName: Locator;
     readonly searchedProductsHeader: Locator;
+    readonly firstProductHover: Locator;
+    readonly firstProductAddToCart: Locator;
+    readonly secondProductHover: Locator;
+    readonly secondProductAddToCart: Locator;
+    readonly continueShoppingBtn: Locator;
+    readonly viewCartLinkModal: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -34,6 +40,12 @@ export class ProductPage {
         this.searchProductIcon = page.locator('#submit_search');
         this.searchProductListName = page.locator('.productinfo p');
         this.searchedProductsHeader = page.getByRole('heading', { name: 'Searched Products' });
+        this.firstProductHover = page.locator('.single-products').first();
+        this.firstProductAddToCart = page.locator('.single-products').first().locator('.add-to-cart').first();
+        this.secondProductHover = page.locator('.single-products').nth(1);
+        this.secondProductAddToCart = page.locator('.single-products').nth(1).locator('.add-to-cart').first();
+        this.continueShoppingBtn = page.locator('button.close-modal');
+        this.viewCartLinkModal = page.locator('#cartModal').getByRole('link', { name: 'View Cart' });
     }
 
     //Navigation 
@@ -43,6 +55,7 @@ export class ProductPage {
 
     async navigateToProductPage() {
         await this.productHeader.click()
+        
     }
 
     //Actions
@@ -91,4 +104,21 @@ export class ProductPage {
 
     }
 
+    async addFirstProductToCart() {
+        await this.firstProductHover.scrollIntoViewIfNeeded();
+        await this.firstProductAddToCart.click();
+    }
+
+    async clickContinueShopping() {
+        await this.continueShoppingBtn.click();
+    }
+
+    async addSecondProductToCart() {
+        await this.secondProductHover.scrollIntoViewIfNeeded();
+        await this.secondProductAddToCart.click();
+    }
+
+    async clickViewCartModal() {
+        await this.viewCartLinkModal.click();
+    }
 }
