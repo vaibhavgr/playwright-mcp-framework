@@ -39,6 +39,9 @@ export class CartPage{
         }
         console.log(rowCount)
 
+    }
       
+    async verifyExactQuantity(expectedQuantity: string) {
+        await expect(this.cartQuantities.first()).toHaveText(expectedQuantity);
     }
 }

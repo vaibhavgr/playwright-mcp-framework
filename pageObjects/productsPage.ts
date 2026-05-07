@@ -24,6 +24,9 @@ export class ProductPage {
     readonly continueShoppingBtn: Locator;
     readonly viewCartLinkModal: Locator;
     readonly singleProducts: Locator;
+    readonly viewProductCartBtn: Locator;
+    readonly quantityInput: Locator;
+    readonly addToCartBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -49,6 +52,10 @@ export class ProductPage {
         this.continueShoppingBtn = page.getByText('Continue Shopping', { exact: true })
         this.viewCartLinkModal = page.locator('#cartModal').getByRole('link', { name: 'View Cart' });
         this.singleProducts = page.locator('.features_items .col-sm-4:visible');
+        this.viewProductCartBtn = page.getByRole('link', { name: 'View Product' });
+        this.quantityInput = page.locator('#quantity');
+        this.addToCartBtn = page.locator('button.cart');
+        
     }
 
     //Navigation 
@@ -155,7 +162,16 @@ export class ProductPage {
                 await this.viewCartLinkModal.click();
             }
         }
-        
+
         return randomCount;
+    }
+
+
+    async increaseQuantity(quantity: string) {
+        await this.quantityInput.fill(quantity);
+    }
+
+    async clickAddToCartBtn() {
+        await this.addToCartBtn.click();
     }
 }
