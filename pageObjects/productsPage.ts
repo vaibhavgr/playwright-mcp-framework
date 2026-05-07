@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { faker } from '@faker-js/faker';
 
 export class ProductPage {
     readonly page: Page;
@@ -22,6 +23,7 @@ export class ProductPage {
     readonly secondProductAddToCart: Locator;
     readonly continueShoppingBtn: Locator;
     readonly viewCartLinkModal: Locator;
+    readonly singleProducts: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -44,8 +46,9 @@ export class ProductPage {
         this.firstProductAddToCart = page.locator('.single-products').first().locator('.add-to-cart').first();
         this.secondProductHover = page.locator('.single-products').nth(1);
         this.secondProductAddToCart = page.locator('.single-products').nth(1).locator('.add-to-cart').first();
-        this.continueShoppingBtn = page.locator('button.close-modal');
+        this.continueShoppingBtn = page.getByText('Continue Shopping', { exact: true })
         this.viewCartLinkModal = page.locator('#cartModal').getByRole('link', { name: 'View Cart' });
+        this.singleProducts = page.locator('.features_items .col-sm-4:visible');
     }
 
     //Navigation 
@@ -55,7 +58,7 @@ export class ProductPage {
 
     async navigateToProductPage() {
         await this.productHeader.click()
-        
+
     }
 
     //Actions
@@ -94,7 +97,7 @@ export class ProductPage {
         expect(count).toBeGreaterThan(0);
     }
 
-   
+
 
     async searchProduct(productName: string) {
         await this.searchProductfill.fill(productName)
@@ -104,21 +107,55 @@ export class ProductPage {
 
     }
 
-    async addFirstProductToCart() {
-        await this.firstProductHover.scrollIntoViewIfNeeded();
-        await this.firstProductAddToCart.click();
-    }
-
     async clickContinueShopping() {
         await this.continueShoppingBtn.click();
     }
 
-    async addSecondProductToCart() {
-        await this.secondProductHover.scrollIntoViewIfNeeded();
-        await this.secondProductAddToCart.click();
-    }
-
     async clickViewCartModal() {
         await this.viewCartLinkModal.click();
+    }
+    // yeh logic tab agar 
+    async addRandomProductsToCart() {
+        const totalProducts = await this.singleProducts.count();
+        const randomCount = faker.number.int({ min: 1, max: totalProducts });
+        console.log(`random add ${randomCount} products`);
+
+        // create indices [0,1,2,...]
+        const indices = [];
+        for (let i = 0; i < totalProducts; i++) {
+            indices.push(i);
+        }
+
+        // shuffle
+        const shuffled = indices.sort(() => 0.5 - Math.random());
+
+        // pick unique indices
+        const selected = shuffled.slice(0, randomCount);
+
+        for (let i = 0; i < selected.length; i++) {
+            const index = selected[i];
+            console.log(`Clicking index: ${index}`);
+
+            const product = this.singleProducts.nth(index);
+
+            // optional but makes it more stable
+            await product.scrollIntoViewIfNeeded();
+            // await product.hover(); // removed to avoid pointer interception
+
+            const addToCartBtn = product.locator('.add-to-cart').first();
+
+            await addToCartBtn.click();
+
+            console.log(`Product at index ${index} added to cart.`);
+
+            if (i < selected.length - 1) {
+                await this.continueShoppingBtn.click();
+                await this.continueShoppingBtn.waitFor({ state: 'hidden' });
+            } else {
+                await this.viewCartLinkModal.click();
+            }
+        }
+        
+        return randomCount;
     }
 }

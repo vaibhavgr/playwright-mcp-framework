@@ -25,6 +25,7 @@ export class HomePage {
     async goto() {
         await this.page.goto('/');
     }
+    
     async navigateToDeletePage() {
         await this.deletaccountHeader.click()
     }

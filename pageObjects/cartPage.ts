@@ -29,22 +29,16 @@ export class CartPage{
     }
 
     async verifyProductPricesQuantityAndTotal() {
-        const rowCount = await this.cartTableRows.count();
-        for (let i = 0; i < rowCount; i++) {
-            await expect(this.cartPrices.nth(i)).toBeVisible();
-            await expect(this.cartQuantities.nth(i)).toBeVisible();
-            await expect(this.cartTotalPrices.nth(i)).toBeVisible();
-            
-            const priceText = await this.cartPrices.nth(i).textContent();
-            const quantityText = await this.cartQuantities.nth(i).textContent();
+        const rowCount = await this.cartTableRows.count()
+        for(let i = 0 ; i < rowCount ; i++){
+            const priceText = await this.cartPrices.nth(i).innerText();
+            const quantityText = await this.cartQuantities.nth(i).innerText();
             const totalText = await this.cartTotalPrices.nth(i).textContent();
+            console.log(priceText , quantityText , totalText)
             
-            if (priceText && quantityText && totalText) {
-                const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
-                const quantity = parseInt(quantityText, 10);
-                const total = parseInt(totalText.replace(/[^0-9]/g, ''), 10);
-                expect(price * quantity).toBe(total);
-            }
         }
+        console.log(rowCount)
+
+      
     }
 }

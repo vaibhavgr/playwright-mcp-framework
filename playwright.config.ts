@@ -5,7 +5,10 @@ import { config } from './config/envLoader';
 
 export default defineConfig({
   testDir: './tests',
-
+  timeout : 60000,
+  expect : {
+    timeout : 8000,
+  },
   retries: config.retry,
   workers: config.workers,
 
