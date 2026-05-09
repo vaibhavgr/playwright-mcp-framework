@@ -124,7 +124,9 @@ export class ProductPage {
     // yeh logic tab agar 
     async addRandomProductsToCart() {
         const totalProducts = await this.singleProducts.count();
-        const randomCount = faker.number.int({ min: 1, max: totalProducts });
+        const tempLimit = 5;
+        const maxPossible = Math.min(totalProducts, tempLimit)
+        const randomCount = faker.number.int({ min: 1, max: maxPossible });
         console.log(`random add ${randomCount} products`);
 
         // create indices [0,1,2,...]

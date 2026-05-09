@@ -21,7 +21,7 @@ test.describe('Products Tests', () => {
     await cartPage.verifyProductPricesQuantityAndTotal();
   });
 
-  test.only("Test Case 13: Verify Product quantity in Cart", async({homePage, productPage, cartPage})=> {
+  test("Test Case 13: Verify Product quantity in Cart", async({homePage, productPage, cartPage})=> {
     // 1. Launch browser 
     // 2. Navigate to url 'http://automationexercise.com'
     // 3. Verify that home page is visible successfully
@@ -44,6 +44,6 @@ test.describe('Products Tests', () => {
 
     // 9. Verify that product is displayed in cart page with exact quantity
     await cartPage.verifyExactQuantity('4');
-  })
+  }) 
 
 });
