@@ -7,6 +7,7 @@ export class CartPage{
  readonly cartPrices : Locator;
  readonly cartQuantities : Locator;
  readonly cartTotalPrices : Locator;
+ 
 
 
     constructor (page : Page){
@@ -17,6 +18,7 @@ export class CartPage{
     this.cartPrices = page.locator('#cart_info_table tbody tr .cart_price p');
     this.cartQuantities = page.locator('#cart_info_table tbody tr .cart_quantity button');
     this.cartTotalPrices = page.locator('#cart_info_table tbody tr .cart_total p.cart_total_price');
+    
 
 }
     //add product top cart
@@ -44,4 +46,5 @@ export class CartPage{
     async verifyExactQuantity(expectedQuantity: string) {
         await expect(this.cartQuantities.first()).toHaveText(expectedQuantity);
     }
+
 }
