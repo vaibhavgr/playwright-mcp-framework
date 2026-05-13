@@ -19,6 +19,7 @@ test.describe('Products Tests', () => {
 
     // 10. Verify their prices, quantity and total price
     await cartPage.verifyProductPricesQuantityAndTotal();
+    
   });
 
   test("Test Case 13: Verify Product quantity in Cart", async({homePage, productPage, cartPage})=> {

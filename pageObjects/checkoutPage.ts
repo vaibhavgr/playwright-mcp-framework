@@ -4,7 +4,12 @@ import { User } from "../data/userData";
 export class CheckoutPage {
     readonly page: Page;
     readonly checkoutModalRegisterLoginBtn: Locator;
-    readonly proceedtoCheckoutBtn: Locator
+    readonly cartTableRows: Locator;
+    readonly cartProducts: Locator;
+    readonly cartPrices: Locator;
+    readonly cartQuantities: Locator;
+    readonly cartTotalPrices: Locator;
+    readonly proceedtoCheckoutBtn: Locator;
     readonly deliveryAddressLines: Locator;
 
     constructor(page: Page) {
@@ -12,6 +17,14 @@ export class CheckoutPage {
         this.proceedtoCheckoutBtn = page.getByText('Proceed To Checkout');
         this.checkoutModalRegisterLoginBtn = page.getByRole('link', { name: 'Register / Login' });
         this.deliveryAddressLines = page.locator('#address_delivery li');
+        
+        // Locators for Review Order Table
+        // We use :has(.cart_description) to only select actual product rows and ignore the "Total Amount" row at the bottom
+        this.cartTableRows = page.locator('table tbody tr:has(.cart_description)');
+        this.cartProducts = page.locator('table tbody tr:has(.cart_description) .cart_description a');
+        this.cartPrices = page.locator('table tbody tr:has(.cart_description) .cart_price p');
+        this.cartQuantities = page.locator('table tbody tr:has(.cart_description) .cart_quantity button');
+        this.cartTotalPrices = page.locator('table tbody tr:has(.cart_description) .cart_total p.cart_total_price');
     }
 
     //
@@ -22,7 +35,6 @@ export class CheckoutPage {
     async clickcheckoutModalRegisterLoginBtn() {
         await this.checkoutModalRegisterLoginBtn.click()
     }
-
 
     async verifyDeliveryAdd(user: User) {
         // at the timje of account creation we fetch and put all details in one array 
@@ -53,7 +65,23 @@ export class CheckoutPage {
         expect(cityStateZip).toContain(`${user.city} ${user.state} ${user.zipcode}`);
         expect(deliveryaddress[6]).toContain('India'); // or user.country
         expect(deliveryaddress[7]).toContain(user.mobile);
-        await this.page.pause();
     }
 
+    async verifyOrderDetails(cartProductsData: any[]) {
+        // We must use 'toHaveCount' instead of '.count()' because 'toHaveCount' will wait for the page to load!
+        await expect(this.cartTableRows).toHaveCount(cartProductsData.length);
+        const rowCount = cartProductsData.length;
+
+        for (let i = 0; i < rowCount; i++) {
+            const productName = await this.cartProducts.nth(i).innerText();
+            const priceText = await this.cartPrices.nth(i).innerText();
+            const quantityText = await this.cartQuantities.nth(i).innerText();
+            const totalText = await this.cartTotalPrices.nth(i).textContent();
+
+            expect(productName).toBe(cartProductsData[i].name);
+            expect(priceText).toBe(cartProductsData[i].price);
+            expect(quantityText).toBe(cartProductsData[i].quantity);
+            expect(totalText).toBe(cartProductsData[i].total);
+        }
+    }
 }

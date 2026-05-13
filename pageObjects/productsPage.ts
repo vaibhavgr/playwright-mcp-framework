@@ -119,9 +119,9 @@ export class ProductPage {
     }
 
     async clickViewCartModal() {
-        await this.viewCartLinkModal.click();
+        await this.viewCartLinkModal.click();  
     }
-    // yeh logic tab agar 
+    
     async addRandomProductsToCart() {
         const totalProducts = await this.singleProducts.count();
         const tempLimit = 5;

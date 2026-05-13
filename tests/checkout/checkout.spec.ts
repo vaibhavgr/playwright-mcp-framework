@@ -33,14 +33,19 @@ test.describe('Checkout Flow', () => {
         await expect(homePage.loggedInUser).toBeVisible();
 
         // --- 12. Click 'Cart' button to go back to cart ---
-        await page.getByRole('link', { name: ' Cart' }).click();
+        await cartPage.clickCartBtn();
+
+        // Extract products data from cart before proceeding to checkout
+        const cartProductsData = await cartPage.getCartProductsDetails();
 
         // --- 13. Click 'Proceed To Checkout' button ---
         await checkoutPage.clickProceedtoCheckoutBtn();
-      
-        
+
         // verify address details have data and deatils are same as the time of account detail section  
         await checkoutPage.verifyDeliveryAdd(newUser);
+    
+        //verify order details at checkoutpage
+        await checkoutPage.verifyOrderDetails(cartProductsData);
 
 
 
