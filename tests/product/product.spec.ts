@@ -30,7 +30,7 @@ test.describe('Products Tests', () => {
   });
 
 
-  test('Test Case 9 : Search Product', async ({ page, homePage, productPage }) => {
+  test('Test Case 9 : Search Product @SearchProduct', async ({ page, homePage, productPage }) => {
     // 1. Launch browser 
     // 2. Navigate to url 'http://automationexercise.com'
     await homePage.goto();

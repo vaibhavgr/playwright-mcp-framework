@@ -9,6 +9,7 @@ import { ProductPage } from '../../pageObjects/productsPage';
 import { SignUpLoginPage } from '../../pageObjects/SignupLoginPage';
 import { ApiUtils } from '../../utils/APIUtils'
 import { CheckoutPage } from '../../pageObjects/checkoutPage';
+import {PaymentPage} from '../../pageObjects/paymentPage'
 
 // 1. Declare the type of your custom fixtures
 type MyFixtures = {
@@ -20,6 +21,7 @@ type MyFixtures = {
     signUpLoginPage: SignUpLoginPage;
     apiUtil: ApiUtils;
     checkoutPage: CheckoutPage;
+    paymentPage : PaymentPage
 };
 
 
@@ -30,6 +32,13 @@ export const test = baseTest.extend<MyFixtures>({
         await use(loginPage);
     },
 
+
+    paymentPage : async({page}, use)=>{
+        const paymentPage = new PaymentPage(page);
+        await use (paymentPage)
+    },
+
+    
     cartPage: async ({ page }, use) => {
         const cartPage = new CartPage(page);
         await use(cartPage);

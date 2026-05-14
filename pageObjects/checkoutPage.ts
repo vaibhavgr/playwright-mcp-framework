@@ -11,6 +11,9 @@ export class CheckoutPage {
     readonly cartTotalPrices: Locator;
     readonly proceedtoCheckoutBtn: Locator;
     readonly deliveryAddressLines: Locator;
+    readonly commentBoxText : Locator
+    readonly placeOrderBtn : Locator
+    
 
     constructor(page: Page) {
         this.page = page;
@@ -25,9 +28,11 @@ export class CheckoutPage {
         this.cartPrices = page.locator('table tbody tr:has(.cart_description) .cart_price p');
         this.cartQuantities = page.locator('table tbody tr:has(.cart_description) .cart_quantity button');
         this.cartTotalPrices = page.locator('table tbody tr:has(.cart_description) .cart_total p.cart_total_price');
+        this.commentBoxText = page.locator('textarea[name="message"]');
+        this.placeOrderBtn = page.getByRole('link', { name: 'Place Order' })
     }
 
-    //
+    // Actions
     async clickProceedtoCheckoutBtn() {
         await this.proceedtoCheckoutBtn.click()
     }
@@ -36,6 +41,16 @@ export class CheckoutPage {
         await this.checkoutModalRegisterLoginBtn.click()
     }
 
+    async enterComments(){
+        await this.commentBoxText.fill("Please send my order soon. Thanks ")
+       
+    }
+
+    async clickPlaceOrder(){
+
+        await this.placeOrderBtn.click()
+    }
+    // assertions 
     async verifyDeliveryAdd(user: User) {
         // at the timje of account creation we fetch and put all details in one array 
         const deliveryaddress = await this.deliveryAddressLines.allTextContents()

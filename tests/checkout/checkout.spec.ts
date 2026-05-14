@@ -8,7 +8,7 @@ import { getNewUserData } from '../../data/userData';
 
 test.describe('Checkout Flow', () => {
 
-    test.only('Test Case 14: Place Order - Register while Checkout', async ({ page, homePage, productPage, cartPage, checkoutPage, signUpLoginPage }) => {
+    test.only('Test Case 14: Place Order - Register while Checkout', async ({ paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage }) => {
         await homePage.goto();
 
         // Add products and go to cart
@@ -41,12 +41,17 @@ test.describe('Checkout Flow', () => {
         // --- 13. Click 'Proceed To Checkout' button ---
         await checkoutPage.clickProceedtoCheckoutBtn();
 
-        // verify address details have data and deatils are same as the time of account detail section  
+        // --- 14.verify address details have data and deatils are same as the time of account detail section  
         await checkoutPage.verifyDeliveryAdd(newUser);
-    
-        //verify order details at checkoutpage
+
+        // --- 14.verify order details at checkoutpage
         await checkoutPage.verifyOrderDetails(cartProductsData);
 
+
+        // --- 15.add description in comment text area and click 'Place Order'
+        await checkoutPage.enterComments();
+        await checkoutPage.clickPlaceOrder();
+        await paymentPage.fillPaymentDetails()
 
 
 
