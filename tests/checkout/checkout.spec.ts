@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/baseTest';
 import { getNewUserData } from '../../data/userData';
+import { testCardData } from '../../data/paymentData';
 
 // Add these imports once you create the classes
 // import { CheckoutPage } from '../../pageObjects/checkoutPage';
@@ -51,7 +52,8 @@ test.describe('Checkout Flow', () => {
         // --- 15.add description in comment text area and click 'Place Order'
         await checkoutPage.enterComments();
         await checkoutPage.clickPlaceOrder();
-        await paymentPage.fillPaymentDetails()
+        const cardData = testCardData();
+        await paymentPage.fillPaymentDetails(cardData)
 
 
 

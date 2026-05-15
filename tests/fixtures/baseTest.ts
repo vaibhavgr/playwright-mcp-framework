@@ -27,6 +27,19 @@ type MyFixtures = {
 
 // 2. Pass the type <MyFixtures> into the extend function
 export const test = baseTest.extend<MyFixtures>({
+    
+    // Override the default 'page' fixture to block ads globally
+    page: async ({ page }, use) => {
+        await page.route('**/*', (route) => {
+            const url = route.request().url();
+            if (url.includes('googleads') || url.includes('googlesyndication') || url.includes('doubleclick') || url.includes('adservice')) {
+                route.abort();
+            } else {
+                route.continue();
+            }
+        });
+        await use(page);
+    },
     loginPage: async ({ page }, use) => {
         const loginPage = new LoginPage(page);
         await use(loginPage);

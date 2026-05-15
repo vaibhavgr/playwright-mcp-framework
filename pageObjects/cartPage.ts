@@ -20,7 +20,7 @@ export class CartPage {
         this.cartPrices = page.locator('#cart_info_table tbody tr .cart_price p');
         this.cartQuantities = page.locator('#cart_info_table tbody tr .cart_quantity button');
         this.cartTotalPrices = page.locator('#cart_info_table tbody tr .cart_total p.cart_total_price');
-        this.cartBtn = page.getByRole('link', { name: ' Cart' });
+        this.cartBtn = page.locator('.shop-menu a[href="/view_cart"]');
         this.cartProducts = page.locator('#cart_info_table tbody tr .cart_description a')
 
 

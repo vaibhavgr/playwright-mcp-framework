@@ -1,5 +1,7 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { testCardData } from '../data/paymentData'
+import { PaymentDetails } from '../data/paymentData';
+
+
 
 export class PaymentPage {
     readonly page: Page;
@@ -20,13 +22,14 @@ export class PaymentPage {
         this.payBtn = page.locator('[data-qa="pay-button"]');
     }
 
-    async fillPaymentDetails() {
-        const cardData = testCardData;
+    async fillPaymentDetails(cardData: PaymentDetails) {
+        
         await this.cardName.fill(cardData.nameOnCard);
         await this.cardNumber.fill(cardData.cardNumber);
         await this.cvc.fill(cardData.cvc)
         await this.expiryMonth.fill(cardData.expiryMonth)
         await this.expiryYear.fill(cardData.expiryYear)
+        await this.payBtn.click();
         
     }
 
