@@ -55,7 +55,7 @@ export class ProductPage {
         this.viewProductCartBtn = page.getByRole('link', { name: 'View Product' });
         this.quantityInput = page.locator('#quantity');
         this.addToCartBtn = page.locator('button.cart');
-        
+
     }
 
     //Navigation 
@@ -119,9 +119,9 @@ export class ProductPage {
     }
 
     async clickViewCartModal() {
-        await this.viewCartLinkModal.click();  
+        await this.viewCartLinkModal.click();
     }
-    
+
     async addRandomProductsToCart() {
         const totalProducts = await this.singleProducts.count();
         const tempLimit = 5;
@@ -149,7 +149,7 @@ export class ProductPage {
 
             // optional but makes it more stable
             await product.scrollIntoViewIfNeeded();
-            // await product.hover(); // removed to avoid pointer interception
+
 
             const addToCartBtn = product.locator('.add-to-cart').first();
 
@@ -161,7 +161,10 @@ export class ProductPage {
                 await this.continueShoppingBtn.click();
                 await this.continueShoppingBtn.waitFor({ state: 'hidden' });
             } else {
-                await this.viewCartLinkModal.click();
+                await Promise.all([
+                    this.page.waitForURL('**/view_cart'),
+                    this.viewCartLinkModal.click()
+                ]);
             }
         }
 

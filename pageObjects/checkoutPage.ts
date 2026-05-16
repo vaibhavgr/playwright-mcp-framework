@@ -17,7 +17,7 @@ export class CheckoutPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.proceedtoCheckoutBtn = page.getByText('Proceed To Checkout');
+        this.proceedtoCheckoutBtn = page.getByText('Proceed To Checkout', { exact: true })
         this.checkoutModalRegisterLoginBtn = page.getByRole('link', { name: 'Register / Login' });
         this.deliveryAddressLines = page.locator('#address_delivery li');
         
@@ -52,8 +52,9 @@ export class CheckoutPage {
     }
     // assertions 
     async verifyDeliveryAdd(user: User) {
-        // at the timje of account creation we fetch and put all details in one array 
-        const deliveryaddress = await this.deliveryAddressLines.allTextContents()
+        // Wait for the address elements to load on the checkout page before extracting text
+        await expect(this.deliveryAddressLines.first()).toBeVisible();
+        const deliveryaddress = await this.deliveryAddressLines.allTextContents();
 
         const cityStateZip = deliveryaddress[5].replace(/\s+/g, ' ').trim();
 

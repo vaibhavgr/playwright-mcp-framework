@@ -3,13 +3,10 @@ import { test } from '../fixtures/baseTest';
 import { getNewUserData } from '../../data/userData';
 import { testCardData } from '../../data/paymentData';
 
-// Add these imports once you create the classes
-// import { CheckoutPage } from '../../pageObjects/checkoutPage';
-// import { PaymentPage } from '../../pageObjects/paymentPage';
 
 test.describe('Checkout Flow', () => {
 
-    test.only('Test Case 14: Place Order - Register while Checkout', async ({ paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage }) => {
+    test.only('Test Case 14: Register while Checkout with Invoice Verification', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage }) => {
         await homePage.goto();
 
         // Add products and go to cart
@@ -34,13 +31,18 @@ test.describe('Checkout Flow', () => {
         await expect(homePage.loggedInUser).toBeVisible();
 
         // --- 12. Click 'Cart' button to go back to cart ---
-        await cartPage.clickCartBtn();
+        await Promise.all([
+            page.waitForURL('**/view_cart'),
+            cartPage.clickCartBtn()
+        ]);
 
         // Extract products data from cart before proceeding to checkout
         const cartProductsData = await cartPage.getCartProductsDetails();
 
         // --- 13. Click 'Proceed To Checkout' button ---
-        await checkoutPage.clickProceedtoCheckoutBtn();
+        await Promise.all([
+            checkoutPage.clickProceedtoCheckoutBtn()
+        ]);
 
         // --- 14.verify address details have data and deatils are same as the time of account detail section  
         await checkoutPage.verifyDeliveryAdd(newUser);
@@ -54,6 +56,10 @@ test.describe('Checkout Flow', () => {
         await checkoutPage.clickPlaceOrder();
         const cardData = testCardData();
         await paymentPage.fillPaymentDetails(cardData)
+        await paymentPage.verifySuccessOrdertext();
+        await paymentPage.downloadAndVerifyInvoice();
+
+
 
 
 

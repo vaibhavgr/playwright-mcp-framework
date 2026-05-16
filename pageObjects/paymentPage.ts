@@ -1,5 +1,7 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { PaymentDetails } from '../data/paymentData';
+import fs from 'fs';
+    
 
 
 
@@ -11,6 +13,8 @@ export class PaymentPage {
     readonly expiryYear: Locator
     readonly cvc: Locator;
     readonly payBtn: Locator;
+    readonly successOrderMsg: Locator
+    readonly downloadInvoiceBtn: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -20,17 +24,36 @@ export class PaymentPage {
         this.expiryMonth = page.locator('[data-qa="expiry-month"]');
         this.expiryYear = page.locator('[data-qa="expiry-year"]');
         this.payBtn = page.locator('[data-qa="pay-button"]');
+        this.successOrderMsg = page.getByText('Congratulations! Your order has been confirmed!', { exact: true })
+        this.downloadInvoiceBtn = page.getByRole('link', { name: 'Download Invoice' })
     }
 
     async fillPaymentDetails(cardData: PaymentDetails) {
-        
+
         await this.cardName.fill(cardData.nameOnCard);
         await this.cardNumber.fill(cardData.cardNumber);
         await this.cvc.fill(cardData.cvc)
         await this.expiryMonth.fill(cardData.expiryMonth)
         await this.expiryYear.fill(cardData.expiryYear)
         await this.payBtn.click();
+
+    }
+
+    async verifySuccessOrdertext() {
+        await expect(this.successOrderMsg, 'Payment success message was not visible after clicking Pay').toBeVisible();
+    }
+
+    async downloadAndVerifyInvoice() {
         
+        const downloadPromise = this.page.waitForEvent('download') 
+         await this.downloadInvoiceBtn.click()
+           const download = await downloadPromise;
+           const filePath = await download.path();
+           const filecontent = fs.readFileSync(filePath , 'utf-8')
+           console.log(filecontent)
+      
+
+
     }
 
 
