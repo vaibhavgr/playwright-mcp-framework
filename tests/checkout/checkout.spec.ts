@@ -48,20 +48,24 @@ test.describe('Checkout Flow', () => {
         await checkoutPage.verifyDeliveryAdd(newUser);
 
         // --- 14.verify order details at checkoutpage
-        await checkoutPage.verifyOrderDetails(cartProductsData);
+        const grandTotal = await checkoutPage.verifyOrderDetails(cartProductsData);
 
 
         // --- 15.add description in comment text area and click 'Place Order'
         await checkoutPage.enterComments();
+
         await checkoutPage.clickPlaceOrder();
         const cardData = testCardData();
         await paymentPage.fillPaymentDetails(cardData)
         await paymentPage.verifySuccessOrdertext();
-        await paymentPage.downloadAndVerifyInvoice();
+        await paymentPage.downloadAndVerifyInvoice(newUser.firstName, newUser.lastName, grandTotal);
 
+        // --- 19. Click 'Delete Account' button ---
+        await homePage.navigateToDeletePage();
 
-
-
+        // --- 20. Verify 'ACCOUNT DELETED!' and click 'Continue' button ---
+        await homePage.verifyAccountDeleted();
+        await homePage.clickContinue();
 
     });
 });

@@ -11,16 +11,17 @@ export class CheckoutPage {
     readonly cartTotalPrices: Locator;
     readonly proceedtoCheckoutBtn: Locator;
     readonly deliveryAddressLines: Locator;
-    readonly commentBoxText : Locator
-    readonly placeOrderBtn : Locator
-    
+    readonly commentBoxText: Locator
+    readonly placeOrderBtn: Locator
+    readonly grandTotalAmount: Locator
+
 
     constructor(page: Page) {
         this.page = page;
         this.proceedtoCheckoutBtn = page.getByText('Proceed To Checkout', { exact: true })
         this.checkoutModalRegisterLoginBtn = page.getByRole('link', { name: 'Register / Login' });
         this.deliveryAddressLines = page.locator('#address_delivery li');
-        
+
         // Locators for Review Order Table
         // We use :has(.cart_description) to only select actual product rows and ignore the "Total Amount" row at the bottom
         this.cartTableRows = page.locator('table tbody tr:has(.cart_description)');
@@ -30,6 +31,10 @@ export class CheckoutPage {
         this.cartTotalPrices = page.locator('table tbody tr:has(.cart_description) .cart_total p.cart_total_price');
         this.commentBoxText = page.locator('textarea[name="message"]');
         this.placeOrderBtn = page.getByRole('link', { name: 'Place Order' })
+        this.grandTotalAmount = page.locator('tr')
+            .filter({ hasText: 'Total Amount' })
+            .locator('.cart_total_price');
+
     }
 
     // Actions
@@ -41,12 +46,12 @@ export class CheckoutPage {
         await this.checkoutModalRegisterLoginBtn.click()
     }
 
-    async enterComments(){
+    async enterComments() {
         await this.commentBoxText.fill("Please send my order soon. Thanks ")
-       
+
     }
 
-    async clickPlaceOrder(){
+    async clickPlaceOrder() {
 
         await this.placeOrderBtn.click()
     }
@@ -94,10 +99,17 @@ export class CheckoutPage {
             const quantityText = await this.cartQuantities.nth(i).innerText();
             const totalText = await this.cartTotalPrices.nth(i).textContent();
 
+
+
             expect(productName).toBe(cartProductsData[i].name);
             expect(priceText).toBe(cartProductsData[i].price);
             expect(quantityText).toBe(cartProductsData[i].quantity);
             expect(totalText).toBe(cartProductsData[i].total);
         }
+        let finalGrandTotal = await this.grandTotalAmount.innerText();
+        finalGrandTotal = finalGrandTotal.replace('Rs. ', '').trim();
+        console.log('yeh arha hai', finalGrandTotal);
+        return finalGrandTotal;
+
     }
 }

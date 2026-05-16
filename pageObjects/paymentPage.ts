@@ -1,7 +1,7 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { PaymentDetails } from '../data/paymentData';
 import fs from 'fs';
-    
+
 
 
 
@@ -43,15 +43,16 @@ export class PaymentPage {
         await expect(this.successOrderMsg, 'Payment success message was not visible after clicking Pay').toBeVisible();
     }
 
-    async downloadAndVerifyInvoice() {
-        
-        const downloadPromise = this.page.waitForEvent('download') 
-         await this.downloadInvoiceBtn.click()
-           const download = await downloadPromise;
-           const filePath = await download.path();
-           const filecontent = fs.readFileSync(filePath , 'utf-8')
-           console.log(filecontent)
-      
+    async downloadAndVerifyInvoice(userName: string, lastName: string, grandTotal: string) {
+
+        const downloadPromise = this.page.waitForEvent('download')
+        await this.downloadInvoiceBtn.click()
+        const download = await downloadPromise;
+        const filePath = await download.path();
+        const filecontent = fs.readFileSync(filePath, 'utf-8')
+        console.log(filecontent)
+        expect(filecontent).toContain(`Hi ${userName} ${lastName}, Your total purchase amount is ${grandTotal}`);
+
 
 
     }
