@@ -6,7 +6,7 @@ import { testCardData } from '../../data/paymentData';
 
 test.describe('Checkout Flow', () => {
 
-    test.only('Test Case 14: Register while Checkout with Invoice Verification', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage }) => {
+    test('Test Case 14: Register while Checkout with Invoice Verification', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage }) => {
         await homePage.goto();
 
         // Add products and go to cart
@@ -50,7 +50,6 @@ test.describe('Checkout Flow', () => {
         // --- 14.verify order details at checkoutpage
         const grandTotal = await checkoutPage.verifyOrderDetails(cartProductsData);
 
-
         // --- 15.add description in comment text area and click 'Place Order'
         await checkoutPage.enterComments();
 
@@ -67,5 +66,104 @@ test.describe('Checkout Flow', () => {
         await homePage.verifyAccountDeleted();
         await homePage.clickContinue();
 
+    });
+
+    test('Test Case 15: Place Order: Register before Checkout', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage }) => {
+        await homePage.goto();
+
+        // --- 4. Click 'Signup / Login' button ---
+        await signUpLoginPage.goto();
+
+        // --- 5. Fill all details in Signup and create account ---
+        const newUser = getNewUserData();
+        await signUpLoginPage.verifySignupVisible();
+        await signUpLoginPage.registerUser(newUser.firstName, newUser.email);
+        await signUpLoginPage.fillAccountDetails(newUser);
+
+        // --- 6. Verify 'ACCOUNT CREATED!' and click 'Continue' button ---
+        await signUpLoginPage.verifyAccountCreated();
+        await signUpLoginPage.clickContinue();
+
+        // --- 7. Verify 'Logged in as username' at top ---
+        await expect(homePage.loggedInUser).toBeVisible();
+
+        // --- 8. Add products to cart ---
+        await productPage.addRandomProductsToCart();
+
+        // Note: addRandomProductsToCart already navigates to the cart page, 
+        // so we can extract products data directly.
+        const cartProductsData = await cartPage.getCartProductsDetails();
+
+        // --- 11. Click Proceed To Checkout ---
+        await checkoutPage.clickProceedtoCheckoutBtn();
+
+        // --- 12. Verify Address Details and Review Your Order ---
+        await checkoutPage.verifyDeliveryAdd(newUser);
+        const grandTotal = await checkoutPage.verifyOrderDetails(cartProductsData);
+
+        // --- 13. Enter description in comment text area and click 'Place Order' ---
+        await checkoutPage.enterComments();
+        await checkoutPage.clickPlaceOrder();
+
+        // --- 14 & 15. Enter payment details and click 'Pay and Confirm Order' ---
+        const cardData = testCardData();
+        await paymentPage.fillPaymentDetails(cardData);
+
+        // --- 16. Verify success message ---
+        await paymentPage.verifySuccessOrdertext();
+        await paymentPage.downloadAndVerifyInvoice(newUser.firstName, newUser.lastName, grandTotal);
+
+        // --- 17. Click 'Delete Account' button ---
+        await homePage.navigateToDeletePage();
+
+        // --- 18. Verify 'ACCOUNT DELETED!' and click 'Continue' button ---
+        await homePage.verifyAccountDeleted();
+        await homePage.clickContinue();
+    });
+
+    test.only('Test Case 16: Place Order: Login before Checkout', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage, loginPage }) => {
+        // --- Pre-condition: Create a user and logout so we can login during the test ---
+        const newUser = getNewUserData();
+        await homePage.goto();
+        await signUpLoginPage.goto();
+        await signUpLoginPage.registerUser(newUser.firstName, newUser.email);
+        await signUpLoginPage.fillAccountDetails(newUser);
+        await signUpLoginPage.clickContinue();
+        await homePage.logoutheaderBtn();
+
+        // --- Actual Flow for Test Case 16 ---
+        // --- 4. Click 'Signup / Login' button ---
+        await loginPage.goto();
+
+        // --- 5. Fill email, password and click 'Login' button ---
+        await loginPage.loginValidUser(newUser.email, newUser.password);
+        await loginPage.loginBtnClick();
+        // --- 6. Verify 'Logged in as username' at top ---
+        await expect(homePage.loggedInUser).toBeVisible();
+
+        // --- 7. Add products to cart ---
+        await productPage.addRandomProductsToCart();
+
+        // Extract products data directly from cart
+        const cartProductsData = await cartPage.getCartProductsDetails();
+
+        // --- 10. Click Proceed To Checkout ---
+        await checkoutPage.clickProceedtoCheckoutBtn();
+
+        // --- 11. Verify Address Details and Review Your Order ---
+        await checkoutPage.verifyDeliveryAdd(newUser);
+        const grandTotal = await checkoutPage.verifyOrderDetails(cartProductsData);
+
+        // --- 12. Enter description in comment text area and click 'Place Order' ---
+        await checkoutPage.enterComments();
+        await checkoutPage.clickPlaceOrder();
+
+        // --- 13 & 14. Enter payment details and click 'Pay and Confirm Order' ---
+        const cardData = testCardData();
+        await paymentPage.fillPaymentDetails(cardData);
+
+        // --- 15. Verify success message ---
+        await paymentPage.verifySuccessOrdertext();
+        await paymentPage.downloadAndVerifyInvoice(newUser.firstName, newUser.lastName, grandTotal);
     });
 });
