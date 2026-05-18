@@ -1,3 +1,4 @@
+import { CartPage } from '../../pageObjects/cartPage';
 import { test } from '../fixtures/baseTest';
 import { expect } from '@playwright/test';
 
@@ -19,10 +20,10 @@ test.describe('Products Tests', () => {
 
     // 10. Verify their prices, quantity and total price
     await cartPage.verifyProductPricesQuantityAndTotal();
-    
+
   });
 
-  test("Test Case 13: Verify Product quantity in Cart", async({homePage, productPage, cartPage})=> {
+  test("Test Case 13: Verify Product quantity in Cart", async ({ homePage, productPage, cartPage }) => {
     // 1. Launch browser 
     // 2. Navigate to url 'http://automationexercise.com'
     // 3. Verify that home page is visible successfully
@@ -45,6 +46,15 @@ test.describe('Products Tests', () => {
 
     // 9. Verify that product is displayed in cart page with exact quantity
     await cartPage.verifyExactQuantity('4');
-  }) 
+  })
+
+  test.only('Test Case 17 : Remove Product from Cart', async ({ homePage, productPage, cartPage }) => {
+
+    await homePage.goto();
+    await productPage.addRandomProductsToCart();
+    await cartPage.removeProductfromCart();
+    await cartPage.verifyCartIsEmpty()
+
+  })
 
 });

@@ -9,6 +9,8 @@ export class CartPage {
     readonly cartTotalPrices: Locator;
     readonly cartBtn: Locator
     readonly cartProducts: Locator;
+    readonly removeProductBtn: Locator
+    readonly emptyCartMessage: Locator
 
 
 
@@ -22,6 +24,8 @@ export class CartPage {
         this.cartTotalPrices = page.locator('#cart_info_table tbody tr .cart_total p.cart_total_price');
         this.cartBtn = page.locator('.shop-menu a[href="/view_cart"]');
         this.cartProducts = page.locator('#cart_info_table tbody tr .cart_description a')
+        this.removeProductBtn = page.locator('.cart_quantity_delete')
+        this.emptyCartMessage = page.getByText('Cart is empty!', { exact: true });
 
 
     }
@@ -47,7 +51,7 @@ export class CartPage {
             const priceText = await this.cartPrices.nth(i).innerText();
             const quantityText = await this.cartQuantities.nth(i).innerText();
             const totalText = await this.cartTotalPrices.nth(i).innerText();
-            
+
             // Har product ki details ko ek object banakar array me push kar rahe hain
             productsData.push({
                 name: productName,
@@ -77,4 +81,17 @@ export class CartPage {
         await expect(this.cartQuantities.first()).toHaveText(expectedQuantity);
     }
 
+    async removeProductfromCart() {
+        const productsData = await this.getCartProductsDetails();
+        await expect(this.cartTableRows).toHaveCount(productsData.length);
+        const rowCount = productsData.length;
+        for (let i = 0; i < rowCount; i++) {
+            await this.removeProductBtn.first().click()
+            await expect(this.cartTableRows).toHaveCount(rowCount - i - 1);
+        }
+    }
+    async verifyCartIsEmpty() {
+        await expect(this.emptyCartMessage).toBeVisible();
+        await this.page.pause()
+    }
 }
