@@ -121,7 +121,7 @@ test.describe('Checkout Flow', () => {
         await homePage.clickContinue();
     });
 
-    test.only('Test Case 16: Place Order: Login before Checkout', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage, loginPage }) => {
+    test('Test Case 16: Place Order: Login before Checkout', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage, signUpLoginPage, loginPage }) => {
         // --- Pre-condition: Create a user and logout so we can login during the test ---
         const newUser = getNewUserData();
         await homePage.goto();
