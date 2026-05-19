@@ -49,12 +49,24 @@ test.describe('Products Tests', () => {
 
   })
   test.only('Test Case 18 : View Category Products', async ({ page, homePage, productPage }) => {
-    // 1. Launch browser 
-    // 2. Navigate to url 'http://automationexercise.com'
+    // 1. Launch browser & 2. Navigate to url
     await homePage.goto();
+    
+    // 3. Verify that categories are visible on left side bar
+    await homePage.verifyCategoriesVisible();
+    
+    // 4. Click on 'Women' category & 5. Click on any sub-category link under 'Women' category
+    await homePage.clickCategory('Women', 'Dress');
+    
+    // 6. Verify that category page is displayed and confirm text 'WOMEN - DRESS PRODUCTS'
+    await productPage.verifyCategoryTitle('Women - Dress Products');
 
+    // 7. On left side bar, click on any sub-category link of 'Men' category
+    await homePage.clickCategory('Men', 'Tshirts');
 
-
+    // 8. Verify that user is navigated to that category page
+    await productPage.verifyCategoryTitle('Men - Tshirts Products');
+    await page.pause()
   })
 
 
