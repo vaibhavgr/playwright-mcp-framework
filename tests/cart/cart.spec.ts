@@ -48,7 +48,7 @@ test.describe('Products Tests', () => {
     await cartPage.verifyExactQuantity('4');
   })
 
-  test.only('Test Case 17 : Remove Product from Cart', async ({ homePage, productPage, cartPage }) => {
+  test('Test Case 17 : Remove Product from Cart', async ({ homePage, productPage, cartPage }) => {
 
     await homePage.goto();
     await productPage.addRandomProductsToCart();
