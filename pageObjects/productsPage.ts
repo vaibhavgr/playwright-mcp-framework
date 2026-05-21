@@ -10,6 +10,8 @@ export class ProductPage {
     readonly singleProducts: Locator;
     readonly categoryTitle: Locator;
     readonly productHeader: Locator;
+    readonly brandsHeading: Locator;
+    readonly brandList: Locator;
 
     // --- Locators: Search ---
     readonly searchProductfill: Locator;
@@ -36,6 +38,7 @@ export class ProductPage {
     readonly viewCartLinkModal: Locator;
     readonly quantityInput: Locator;
     readonly addToCartBtn: Locator;
+
 
     constructor(page: Page) {
         this.page = page;
@@ -72,6 +75,11 @@ export class ProductPage {
         this.viewCartLinkModal = page.locator('#cartModal').getByRole('link', { name: 'View Cart' });
         this.quantityInput = page.locator('#quantity');
         this.addToCartBtn = page.locator('button.cart');
+
+        //Brnad Heading 
+        this.brandsHeading = page.getByRole('heading', { name: 'Brands' });
+        this.brandList = page.locator('.brands-name ul.nav-pills li a')
+
     }
 
     // ==========================================
@@ -126,7 +134,7 @@ export class ProductPage {
         const tempLimit = 5;
         const maxPossible = Math.min(totalProducts, tempLimit);
         const randomCount = faker.number.int({ min: 1, max: maxPossible });
-        
+
         console.log(`random add ${randomCount} products`);
 
         // create indices [0,1,2,...]
@@ -165,6 +173,16 @@ export class ProductPage {
         }
 
         return randomCount;
+    }
+    async verifyBrandsVisible() {
+        await expect(this.brandsHeading).toBeVisible();
+        const count = await this.brandList.count();
+        for (let i = 0; i < count; i++) {
+            console.log(i)
+        }
+    }
+    async clickBrand() {
+
     }
 
     // ==========================================

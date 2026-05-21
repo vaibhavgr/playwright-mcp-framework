@@ -48,16 +48,16 @@ test.describe('Products Tests', () => {
     await productPage.verifySearchName()
 
   })
-  test.only('Test Case 18 : View Category Products', async ({ page, homePage, productPage }) => {
+  test('Test Case 18 : View Category Products', async ({ page, homePage, productPage }) => {
     // 1. Launch browser & 2. Navigate to url
     await homePage.goto();
-    
+
     // 3. Verify that categories are visible on left side bar
     await homePage.verifyCategoriesVisible();
-    
+
     // 4. Click on 'Women' category & 5. Click on any sub-category link under 'Women' category
     await homePage.clickCategory('Women', 'Dress');
-    
+
     // 6. Verify that category page is displayed and confirm text 'WOMEN - DRESS PRODUCTS'
     await productPage.verifyCategoryTitle('Women - Dress Products');
 
@@ -66,8 +66,18 @@ test.describe('Products Tests', () => {
 
     // 8. Verify that user is navigated to that category page
     await productPage.verifyCategoryTitle('Men - Tshirts Products');
-    await page.pause()
-  })
 
+  })
+  test.only('Test Case 19 : : View & Cart Brand Products', async ({ page, homePage, productPage }) => {
+    // 1. Launch browser & 2. Navigate to url
+    await homePage.goto();
+
+    //3.click on 'Products' Section
+    await productPage.navigateToProductPage();
+
+    //4.Verify that Brands are visible on left side bar
+    await productPage.verifyBrandsVisible();
+
+  })
 
 });
