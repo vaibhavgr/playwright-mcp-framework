@@ -5,9 +5,9 @@ import { config } from './config/envLoader';
 
 export default defineConfig({
   testDir: './tests',
-  timeout : 60000,
-  expect : {
-    timeout : 8000,
+  timeout: 60000,
+  expect: {
+    timeout: 8000,
   },
   retries: config.retry,
   workers: config.workers,
@@ -17,7 +17,8 @@ export default defineConfig({
     headless: config.headless,
     browserName: config.browser as any,
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
+    ignoreHTTPSErrors: true
   },
 
   reporter: [
@@ -33,30 +34,30 @@ export default defineConfig({
         headless: false,
         screenshot: 'on',
         trace: 'on',  //on off
-      
+
       },
     },
 
-  //   {
-  //     name: 'Mobile_IOS',
-  //     use: {
-  //       browserName: 'chromium',
-  //       headless: false,
-  //       screenshot: 'on',
-  //       trace: 'on',  //on off
-  //      ...devices['iPhone 15 Pro Max']
-  //     },
-  //   },
+    //   {
+    //     name: 'Mobile_IOS',
+    //     use: {
+    //       browserName: 'chromium',
+    //       headless: false,
+    //       screenshot: 'on',
+    //       trace: 'on',  //on off
+    //      ...devices['iPhone 15 Pro Max']
+    //     },
+    //   },
 
-  //   {
-  //     name: 'Mobile_Android',
-  //     use: {
-  //       browserName: 'chromium',
-  //       headless: false,
-  //       screenshot: 'on',
-  //       trace: 'on',  //on off
-  //      ...devices['Pixel 7']
-  //     },
-  //   },
+    //   {
+    //     name: 'Mobile_Android',
+    //     use: {
+    //       browserName: 'chromium',
+    //       headless: false,
+    //       screenshot: 'on',
+    //       trace: 'on',  //on off
+    //      ...devices['Pixel 7']
+    //     },
+    //   },
   ]
 });

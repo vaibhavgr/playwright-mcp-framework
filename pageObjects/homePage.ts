@@ -14,6 +14,7 @@ export class HomePage {
     readonly subcategory: Locator
 
 
+
     constructor(page: Page) {
         this.page = page;
         this.loggedInUser = page.locator(`//a[contains(normalize-space(), 'Logged in as')]`);

@@ -178,11 +178,23 @@ export class ProductPage {
         await expect(this.brandsHeading).toBeVisible();
         const count = await this.brandList.count();
         for (let i = 0; i < count; i++) {
-            console.log(i)
+            const brandElement = this.brandList.nth(i);
+            await expect(brandElement).toBeVisible();
+             const brandName = await brandElement.textContent();
+            //console lagya h brand name ke liye hatana hai 
+            console.log(brandName);
         }
     }
-    async clickBrand() {
+    async clickBrand(brandName: string) {
+        await this.brandList.filter({ hasText: brandName }).first().click();
+    }
 
+    async verifyBrandPage(brandName: string) {
+        await expect(this.page).toHaveURL(new RegExp(`/brand_products/${brandName}`, 'i'));
+        await expect(this.categoryTitle).toBeVisible();
+        await expect(this.categoryTitle).toHaveText(new RegExp(`Brand - ${brandName} Products`, 'i'));
+        const count = await this.singleProducts.count();
+        expect(count).toBeGreaterThan(0);
     }
 
     // ==========================================

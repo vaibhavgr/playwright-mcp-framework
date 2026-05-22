@@ -72,12 +72,23 @@ test.describe('Products Tests', () => {
     // 1. Launch browser & 2. Navigate to url
     await homePage.goto();
 
-    //3.click on 'Products' Section
+    // 3. Click on 'Products' Section
     await productPage.navigateToProductPage();
 
-    //4.Verify that Brands are visible on left side bar
+    // 4. Verify that Brands are visible on left side bar
     await productPage.verifyBrandsVisible();
 
+    // 5. Click on any brand name
+    await productPage.clickBrand('Polo');
+
+    // 6. Verify that user is navigated to brand page and brand products are displayed
+    await productPage.verifyBrandPage('Polo');
+
+    // 7. On left side bar, click on any other brand link
+    await productPage.clickBrand('H&M');
+
+    // 8. Verify that user is navigated to that brand page and can see products
+    await productPage.verifyBrandPage('H&M');
   })
 
 });
