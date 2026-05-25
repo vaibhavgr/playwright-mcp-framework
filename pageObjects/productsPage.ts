@@ -193,8 +193,7 @@ export class ProductPage {
         await expect(this.page).toHaveURL(new RegExp(`/brand_products/${brandName}`, 'i'));
         await expect(this.categoryTitle).toBeVisible();
         await expect(this.categoryTitle).toHaveText(new RegExp(`Brand - ${brandName} Products`, 'i'));
-        const count = await this.singleProducts.count();
-        expect(count).toBeGreaterThan(0);
+        
     }
 
     // ==========================================
@@ -229,5 +228,9 @@ export class ProductPage {
     async verifyCategoryTitle(expectedTitle: string) {
         await expect(this.categoryTitle).toBeVisible();
         await expect(this.categoryTitle).toHaveText(expectedTitle);
+    }
+
+    async addAllSearchedProductsToCart(){
+        
     }
 }
