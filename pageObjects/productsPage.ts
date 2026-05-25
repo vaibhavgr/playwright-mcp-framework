@@ -180,7 +180,7 @@ export class ProductPage {
         for (let i = 0; i < count; i++) {
             const brandElement = this.brandList.nth(i);
             await expect(brandElement).toBeVisible();
-             const brandName = await brandElement.textContent();
+            const brandName = await brandElement.textContent();
             //console lagya h brand name ke liye hatana hai 
             console.log(brandName);
         }
@@ -193,7 +193,7 @@ export class ProductPage {
         await expect(this.page).toHaveURL(new RegExp(`/brand_products/${brandName}`, 'i'));
         await expect(this.categoryTitle).toBeVisible();
         await expect(this.categoryTitle).toHaveText(new RegExp(`Brand - ${brandName} Products`, 'i'));
-        
+
     }
 
     // ==========================================
@@ -230,7 +230,15 @@ export class ProductPage {
         await expect(this.categoryTitle).toHaveText(expectedTitle);
     }
 
-    async addAllSearchedProductsToCart(){
-        
+    async addAllSearchedProductsToCart() {
+        const totalProducts = await this.singleProducts.count();
+        for (let i = 0; i < totalProducts; i++) {
+            const product = this.singleProducts.nth(i);
+            await product.scrollIntoViewIfNeeded();
+            const addToCartBtn = product.locator('.add-to-cart').first();
+            await addToCartBtn.click();
+            await this.continueShoppingBtn.click();
+            await this.continueShoppingBtn.waitFor({ state: 'hidden' });
+        }
     }
 }

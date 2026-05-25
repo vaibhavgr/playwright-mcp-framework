@@ -1,5 +1,6 @@
 import { test } from '../fixtures/baseTest';
 import { expect } from '@playwright/test';
+import { getexistingUser } from '../../data/userData';
 
 test.describe('Products Tests', () => {
 
@@ -107,12 +108,19 @@ test.describe('Products Tests', () => {
     const searchProductNames = await productPage.searchProductListName.allTextContents();
     console.log(searchProductNames)
 
-    
 
-    await productPage.addAllSearchedProductsToCart()
+    // 6. Add those products to cart
+    await productPage.addAllSearchedProductsToCart();
 
+    // 7. Click 'Cart' button and verify that products are visible in cart
+    await cartPage.clickCartBtn();
+    await loginPage.goto();
+    const existingUserData = getexistingUser(); // From '../../data/userData'
+    await loginPage.loginValidUser(existingUserData.email, existingUserData.password);
+    await loginPage.loginBtnClick();
 
-
+    // 9. Again, go to Cart page
+    await cartPage.clickCartBtn();
   })
 
 
