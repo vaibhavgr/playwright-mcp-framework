@@ -39,6 +39,15 @@ export class ProductPage {
     readonly quantityInput: Locator;
     readonly addToCartBtn: Locator;
 
+    //Review 
+    readonly writeYourReviewHeader: Locator;
+    readonly reviewNameInput: Locator;
+    readonly reviewEmailInput: Locator;
+    readonly reviewTextInput: Locator;
+    readonly submitReviewBtn: Locator;
+    readonly reviewSuccessMsg: Locator;
+
+
 
     constructor(page: Page) {
         this.page = page;
@@ -79,6 +88,15 @@ export class ProductPage {
         //Brnad Heading 
         this.brandsHeading = page.getByRole('heading', { name: 'Brands' });
         this.brandList = page.locator('.brands-name ul.nav-pills li a')
+
+        // Review Section 
+        this.writeYourReviewHeader = page.getByRole('link', { name: 'Write Your Review' });
+        this.reviewNameInput = page.locator('#name');
+        this.reviewEmailInput = page.locator('#email');
+        this.reviewTextInput = page.locator('#review');
+        this.submitReviewBtn = page.locator('#button-review');
+        this.reviewSuccessMsg = page.locator('span', { hasText: 'Thank you for your review.' })
+
 
     }
 
@@ -240,5 +258,21 @@ export class ProductPage {
             await this.continueShoppingBtn.click();
             await this.continueShoppingBtn.waitFor({ state: 'hidden' });
         }
+    }
+
+    async verifyReviewHeaderVisible() {
+        await expect(this.writeYourReviewHeader).toBeVisible();
+    }
+
+    async submitProductReview(name: string, email: string, reviewText: string) {
+        await this.reviewNameInput.fill(name);
+        await this.reviewEmailInput.fill(email);
+        await this.reviewTextInput.fill(reviewText);
+        await this.submitReviewBtn.click();
+    }
+
+   async verifyReviewSuccessMessage(expectedText: string) {
+        await expect(this.reviewSuccessMsg).toBeVisible();
+        await expect(this.reviewSuccessMsg).toHaveText(expectedText);
     }
 }

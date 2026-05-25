@@ -92,7 +92,7 @@ test.describe('Products Tests', () => {
     await productPage.verifyBrandPage('H&M');
   })
 
-  test.only('Test Case 20: Search Products and Verify Cart After Login', async ({ page, homePage, productPage, cartPage, loginPage }) => {
+  test('Test Case 20: Search Products and Verify Cart After Login', async ({ page, homePage, productPage, cartPage, loginPage }) => {
     // 1. Launch browser & 2. Navigate to url
     await homePage.goto();
 
@@ -123,5 +123,25 @@ test.describe('Products Tests', () => {
     await cartPage.clickCartBtn();
   })
 
+  test.only('Test Case 21: Add review on product', async ({ page, homePage, productPage, cartPage, loginPage }) => {
+    // 1. Launch browser &  Navigate to url
+    await homePage.goto();
+
+    // 2. Click on 'Products' button
+    await productPage.navigateToProductPage();
+
+    // 4. Click on 'View Product' button of first product
+    await productPage.clickViewProductFirst();
+
+    // 5. Verify 'Write Your Review' is visible
+    await productPage.verifyReviewHeaderVisible();
+
+    // 6. Enter name, email, and review & Click 'Submit' button
+    await productPage.submitProductReview('Test User', 'testuser@example.com', 'This is an excellent product!');
+
+    //  7. Verify success message 'Thank you for your review.'
+    await productPage.verifyReviewSuccessMessage('Thank you for your review.');
+  });
 
 });
+
