@@ -1,8 +1,9 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { faker } from '@faker-js/faker';
+import { BasePage } from "./basePage";
 
-export class ProductPage {
-    readonly page: Page;
+export class ProductPage extends BasePage {
+    
 
     // --- Locators: General ---
     readonly allproductText: Locator;
@@ -50,8 +51,8 @@ export class ProductPage {
 
 
     constructor(page: Page) {
-        this.page = page;
-
+        super(page)
+   
         // General
         this.allproductText = page.getByText('All Products', { exact: true });
         this.productsList = page.locator('.features_items');
@@ -105,7 +106,7 @@ export class ProductPage {
     // ==========================================
 
     async goto() {
-        await this.page.goto('/products');
+         await this.navigateTo('/products');;
     }
 
     async navigateToProductPage() {

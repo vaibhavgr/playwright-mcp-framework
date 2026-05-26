@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test';
+import { BasePage } from './basePage';
 
-export class HomePage {
 
-    readonly page: Page;
+export class HomePage extends BasePage {
 
     readonly loggedInUser: Locator;
     readonly deletaccountHeader: Locator
@@ -16,7 +16,8 @@ export class HomePage {
 
 
     constructor(page: Page) {
-        this.page = page;
+
+        super(page);
         this.loggedInUser = page.locator(`//a[contains(normalize-space(), 'Logged in as')]`);
         this.deletaccountHeader = page.getByRole('link', { name: 'Delete Account' })
         this.textDeleteAccount = page.getByText('Account Deleted!', { exact: true })
@@ -31,7 +32,7 @@ export class HomePage {
 
 
     async goto() {
-        await this.page.goto('/');
+        await this.navigateTo('/');;
     }
 
     async navigateToDeletePage() {

@@ -1,7 +1,7 @@
-import { test } from '../fixtures/baseTest';
-import { getNewUserData, getinvalidUser, getexistingUser } from '../../data/userData';
+import { test } from '@fixtures/baseTest';
+import { getNewUserData, getinvalidUser, getexistingUser } from '@data/userData';
 import { expect } from '@playwright/test';
-import { LoginPage } from '../../pageObjects/loginPage';
+import { LoginPage } from '@pageObjects/loginPage';
 
 test.describe('Auth Tests', () => {
 

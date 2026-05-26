@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { User } from "../data/userData";
+import { User } from "@data/userData";
+import { BasePage } from "./basePage";
 
-export class CheckoutPage {
-    readonly page: Page;
+export class CheckoutPage extends BasePage {
     readonly checkoutModalRegisterLoginBtn: Locator;
     readonly cartTableRows: Locator;
     readonly cartProducts: Locator;
@@ -17,7 +17,8 @@ export class CheckoutPage {
 
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
+
         this.proceedtoCheckoutBtn = page.getByText('Proceed To Checkout', { exact: true })
         this.checkoutModalRegisterLoginBtn = page.getByRole('link', { name: 'Register / Login' });
         this.deliveryAddressLines = page.locator('#address_delivery li');

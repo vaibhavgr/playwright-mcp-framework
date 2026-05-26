@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
-import { test } from '../fixtures/baseTest';
-import { getNewUserData } from '../../data/userData';
-import { testCardData } from '../../data/paymentData';
+import { test } from '@fixtures/baseTest';
+import { getNewUserData } from '@data/userData';
+import { testCardData } from '@data/paymentData';
 
 
 test.describe('Checkout Flow', () => {

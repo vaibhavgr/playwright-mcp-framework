@@ -1,15 +1,15 @@
 import { test as baseTest } from '@playwright/test';
 
 
-import { LoginPage } from '../../pageObjects/loginPage';
-import { CartPage } from '../../pageObjects/cartPage';
-import { ContactUsPage } from '../../pageObjects/contactUsPage';
-import { HomePage } from '../../pageObjects/homePage';
-import { ProductPage } from '../../pageObjects/productsPage';
-import { SignUpLoginPage } from '../../pageObjects/SignupLoginPage';
-import { ApiUtils } from '../../utils/APIUtils'
-import { CheckoutPage } from '../../pageObjects/checkoutPage';
-import {PaymentPage} from '../../pageObjects/paymentPage'
+import { LoginPage } from '@pageObjects/loginPage';
+import { CartPage } from '@pageObjects/cartPage';
+import { ContactUsPage } from '@pageObjects/contactUsPage';
+import { HomePage } from '@pageObjects/homePage';
+import { ProductPage } from '@pageObjects/productsPage';
+import { SignUpLoginPage } from '@pageObjects/SignupLoginPage';
+import { ApiUtils } from '@utils/APIUtils';
+import { CheckoutPage } from '@pageObjects/checkoutPage';
+import { PaymentPage } from '@pageObjects/paymentPage';
 
 // 1. Declare the type of your custom fixtures
 type MyFixtures = {

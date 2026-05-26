@@ -1,14 +1,14 @@
 import { Page } from '@playwright/test';
+import { BasePage } from './basePage';
 
-export class LoginPage {
-    readonly page: Page;
+export class LoginPage extends BasePage {
 
     readonly loginEmail;
     readonly loginPassword;
     readonly loginBtn
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
 
         this.loginEmail = page.locator('[data-qa="login-email"]');
         this.loginPassword = page.locator('[data-qa="login-password"]')
@@ -17,7 +17,7 @@ export class LoginPage {
 
     //----Actions-----
     async goto() {
-        await this.page.goto('/login');
+        await this.navigateTo('/login');
     }
 
     async loginValidUser(email : string , password : string){

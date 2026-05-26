@@ -1,12 +1,9 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { PaymentDetails } from '../data/paymentData';
+import { PaymentDetails } from '@data/paymentData';
 import fs from 'fs';
+import { BasePage } from "./basePage";
 
-
-
-
-export class PaymentPage {
-    readonly page: Page;
+export class PaymentPage extends BasePage {
     readonly cardNumber: Locator;
     readonly cardName: Locator;
     readonly expiryMonth: Locator
@@ -17,7 +14,8 @@ export class PaymentPage {
     readonly downloadInvoiceBtn: Locator
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
+
         this.cardName = page.locator('[data-qa="name-on-card"]');
         this.cardNumber = page.locator('[data-qa="card-number"]');
         this.cvc = page.locator('[data-qa="cvc"]');

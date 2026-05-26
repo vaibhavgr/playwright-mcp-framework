@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { getNewUserData, User } from '../data/userData';
+import { getNewUserData, User } from '@data/userData';
+import { BasePage } from "./basePage";
 
-export class SignUpLoginPage {
-  readonly page: Page;
+export class SignUpLoginPage extends BasePage {
 
   // Signup
   readonly signupName: Locator;
@@ -37,7 +37,7 @@ export class SignUpLoginPage {
   readonly textalreadyregisterUser : Locator
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
 
     this.signupName = page.locator('[data-qa="signup-name"]');
     this.signupEmail = page.locator('[data-qa="signup-email"]');
@@ -67,7 +67,7 @@ export class SignUpLoginPage {
   }
   // ---- ACTIONS ------
   async goto() {
-    await this.page.goto('/login');
+    await this.navigateTo('/login');
   }
 
   async registerUser(name: string, email: string): Promise<void> {

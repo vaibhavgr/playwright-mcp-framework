@@ -1,5 +1,5 @@
-import { test } from '../fixtures/baseTest';
-import {getContactUsData} from '../../data/contactusData'
+import { test } from '@fixtures/baseTest';
+import { getContactUsData } from '@data/contactusData';
 
 
  test('Contact Us', async ({ contactUsPage }) => {

@@ -1,6 +1,6 @@
-import { test } from '../fixtures/baseTest';
+import { test } from '@fixtures/baseTest';
 import { expect } from '@playwright/test';
-import { getexistingUser } from '../../data/userData';
+import { getexistingUser } from '@data/userData';
 
 test.describe('Products Tests', () => {
 
@@ -123,24 +123,34 @@ test.describe('Products Tests', () => {
     await cartPage.clickCartBtn();
   })
 
-  test.only('Test Case 21: Add review on product', async ({ page, homePage, productPage, cartPage, loginPage }) => {
-    // 1. Launch browser &  Navigate to url
-    await homePage.goto();
+  test('Test Case 21: Add review on product', async ({ page, homePage, productPage }) => {
+    await test.step('Launch browser & Navigate to Home Page', async () => {
+      await homePage.goto();
+    });
 
-    // 2. Click on 'Products' button
-    await productPage.navigateToProductPage();
+    await test.step('Navigate to Products Page', async () => {
+      await productPage.navigateToProductPage();
+    });
 
-    // 4. Click on 'View Product' button of first product
-    await productPage.clickViewProductFirst();
+    await test.step('Click on View Product of the first product', async () => {
+      await productPage.clickViewProductFirst();
+    });
 
-    // 5. Verify 'Write Your Review' is visible
-    await productPage.verifyReviewHeaderVisible();
+    await test.step('Verify Write Your Review is visible', async () => {
+      await productPage.verifyReviewHeaderVisible();
+    });
 
-    // 6. Enter name, email, and review & Click 'Submit' button
-    await productPage.submitProductReview('Test User', 'testuser@example.com', 'This is an excellent product!');
+    await test.step('Submit product review with details', async () => {
+      await productPage.submitProductReview(
+        'Test User', 
+        'testuser@example.com', 
+        'This is an excellent product!'
+      );
+    });
 
-    //  7. Verify success message 'Thank you for your review.'
-    await productPage.verifyReviewSuccessMessage('Thank you for your review.');
+    await test.step('Verify success message is displayed', async () => {
+      await productPage.verifyReviewSuccessMessage('Thank you for your review.');
+    });
   });
 
 });

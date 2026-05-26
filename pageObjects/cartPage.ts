@@ -1,7 +1,8 @@
 import { Locator, Page, expect } from "@playwright/test";
+import { BasePage } from "./basePage"; // 1. Import BasePage
 
-export class CartPage {
-    readonly page: Page;
+export class CartPage extends BasePage {
+
     readonly addtoCartBtn: Locator;
     readonly cartTableRows: Locator;
     readonly cartPrices: Locator;
@@ -15,8 +16,8 @@ export class CartPage {
 
 
     constructor(page: Page) {
+        super(page);
 
-        this.page = page;
         this.addtoCartBtn = page.getByText('Add to cart', { exact: true })
         this.cartTableRows = page.locator('#cart_info_table tbody tr');
         this.cartPrices = page.locator('#cart_info_table tbody tr .cart_price p');

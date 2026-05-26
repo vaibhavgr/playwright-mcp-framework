@@ -1,8 +1,8 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { ContactUsFormData } from "../data/contactusData";
+import { ContactUsFormData } from "@data/contactusData";
+import { BasePage } from "./basePage";
 
-export class ContactUsPage {
-    readonly page: Page;
+export class ContactUsPage extends BasePage {
     readonly contactusheader: Locator
     readonly textgetintouch: Locator
 
@@ -20,8 +20,8 @@ export class ContactUsPage {
 
 
     constructor(page: Page) {
+        super(page);
 
-        this.page = page;
         this.contactusheader = page.getByText('Contact us', { exact: true });
         this.textgetintouch = page.getByRole('heading', { name: 'Get In Touch' })
 
@@ -39,7 +39,7 @@ export class ContactUsPage {
     }
     // Navigation actions
     async goto() {
-        await this.page.goto('/');
+        await this.navigateTo('/');
     }
 
     async navigateToContactusPage() {

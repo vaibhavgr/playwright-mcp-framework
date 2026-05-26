@@ -1,5 +1,5 @@
-import { CartPage } from '../../pageObjects/cartPage';
-import { test } from '../fixtures/baseTest';
+import { CartPage } from '@pageObjects/cartPage';
+import { test } from '@fixtures/baseTest';
 import { expect } from '@playwright/test';
 
 test.describe('Products Tests', () => {
