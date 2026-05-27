@@ -6,12 +6,12 @@ import { BasePage } from "./basePage";
 export class PaymentPage extends BasePage {
     readonly cardNumber: Locator;
     readonly cardName: Locator;
-    readonly expiryMonth: Locator
-    readonly expiryYear: Locator
+    readonly expiryMonth: Locator;
+    readonly expiryYear: Locator;
     readonly cvc: Locator;
     readonly payBtn: Locator;
-    readonly successOrderMsg: Locator
-    readonly downloadInvoiceBtn: Locator
+    readonly successOrderMsg: Locator;
+    readonly downloadInvoiceBtn: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -26,7 +26,7 @@ export class PaymentPage extends BasePage {
         this.downloadInvoiceBtn = page.getByRole('link', { name: 'Download Invoice' })
     }
 
-    async fillPaymentDetails(cardData: PaymentDetails) {
+    async fillPaymentDetails(cardData: PaymentDetails) : Promise<void> {
 
         await this.cardName.fill(cardData.nameOnCard);
         await this.cardNumber.fill(cardData.cardNumber);
@@ -37,11 +37,11 @@ export class PaymentPage extends BasePage {
 
     }
 
-    async verifySuccessOrdertext() {
+    async verifySuccessOrdertext() : Promise<void>{
         await expect(this.successOrderMsg, 'Payment success message was not visible after clicking Pay').toBeVisible();
     }
 
-    async downloadAndVerifyInvoice(userName: string, lastName: string, grandTotal: string) {
+    async downloadAndVerifyInvoice(userName: string, lastName: string, grandTotal: string): Promise<void> {
 
         const downloadPromise = this.page.waitForEvent('download')
         await this.downloadInvoiceBtn.click()

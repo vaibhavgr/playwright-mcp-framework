@@ -1,6 +1,7 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { User } from "@data/userData";
 import { BasePage } from "./basePage";
+import { CartProductDetails } from "./cartPage";
 
 export class CheckoutPage extends BasePage {
     readonly checkoutModalRegisterLoginBtn: Locator;
@@ -11,9 +12,9 @@ export class CheckoutPage extends BasePage {
     readonly cartTotalPrices: Locator;
     readonly proceedtoCheckoutBtn: Locator;
     readonly deliveryAddressLines: Locator;
-    readonly commentBoxText: Locator
-    readonly placeOrderBtn: Locator
-    readonly grandTotalAmount: Locator
+    readonly commentBoxText: Locator;
+    readonly placeOrderBtn: Locator;
+    readonly grandTotalAmount: Locator;
 
 
     constructor(page: Page) {
@@ -39,25 +40,25 @@ export class CheckoutPage extends BasePage {
     }
 
     // Actions
-    async clickProceedtoCheckoutBtn() {
+    async clickProceedtoCheckoutBtn() : Promise<void> {
         await this.proceedtoCheckoutBtn.click()
     }
 
-    async clickcheckoutModalRegisterLoginBtn() {
+    async clickcheckoutModalRegisterLoginBtn(): Promise<void> {
         await this.checkoutModalRegisterLoginBtn.click()
     }
 
-    async enterComments() {
+    async enterComments(): Promise<void> {
         await this.commentBoxText.fill("Please send my order soon. Thanks ")
 
     }
 
-    async clickPlaceOrder() {
+    async clickPlaceOrder(): Promise<void>{
 
         await this.placeOrderBtn.click()
     }
     // assertions 
-    async verifyDeliveryAdd(user: User) {
+    async verifyDeliveryAdd(user: User) : Promise<void>{
         // Wait for the address elements to load on the checkout page before extracting text
         await expect(this.deliveryAddressLines.first()).toBeVisible();
         const deliveryaddress = await this.deliveryAddressLines.allTextContents();
@@ -89,7 +90,7 @@ export class CheckoutPage extends BasePage {
         expect(deliveryaddress[7]).toContain(user.mobile);
     }
 
-    async verifyOrderDetails(cartProductsData: any[]) {
+     async verifyOrderDetails(cartProductsData: CartProductDetails[]): Promise<string> {
         // We must use 'toHaveCount' instead of '.count()' because 'toHaveCount' will wait for the page to load!
         await expect(this.cartTableRows).toHaveCount(cartProductsData.length);
         const rowCount = cartProductsData.length;

@@ -1,6 +1,14 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { BasePage } from "./basePage"; // 1. Import BasePage
 
+export interface CartProductDetails {
+    name: string;
+    price: string;
+    quantity: string;
+    total: string;
+}
+
+
 export class CartPage extends BasePage {
 
     readonly addtoCartBtn: Locator;
@@ -8,10 +16,10 @@ export class CartPage extends BasePage {
     readonly cartPrices: Locator;
     readonly cartQuantities: Locator;
     readonly cartTotalPrices: Locator;
-    readonly cartBtn: Locator
+    readonly cartBtn: Locator;
     readonly cartProducts: Locator;
-    readonly removeProductBtn: Locator
-    readonly emptyCartMessage: Locator
+    readonly removeProductBtn: Locator;
+    readonly emptyCartMessage: Locator;
 
 
 
@@ -31,21 +39,21 @@ export class CartPage extends BasePage {
 
     }
     //add product top cart
-    async addToCart() {
+    async addToCart(): Promise<void> {
         await this.addtoCartBtn.click()
     }
 
-    async clickCartBtn() {
+    async clickCartBtn(): Promise<void> {
         await this.cartBtn.click()
     }
 
-    async verifyProductsAddedToCart(expectedCount: number) {
+    async verifyProductsAddedToCart(expectedCount: number): Promise<void> {
         await expect(this.cartTableRows).toHaveCount(expectedCount);
     }
 
-    async getCartProductsDetails() {
+    async getCartProductsDetails(): Promise<CartProductDetails[]> {
         const rowCount = await this.cartTableRows.count()
-        const productsData = [];
+        const productsData : CartProductDetails[] = [];
 
         for (let i = 0; i < rowCount; i++) {
             const productName = await this.cartProducts.nth(i).innerText();
@@ -64,7 +72,7 @@ export class CartPage extends BasePage {
         return productsData;
     }
 
-    async verifyProductPricesQuantityAndTotal() {
+    async verifyProductPricesQuantityAndTotal(): Promise<void> {
         const productsData = await this.getCartProductsDetails();
 
         for (const product of productsData) {
@@ -78,11 +86,11 @@ export class CartPage extends BasePage {
         }
     }
 
-    async verifyExactQuantity(expectedQuantity: string) {
+    async verifyExactQuantity(expectedQuantity: string) : Promise<void>{
         await expect(this.cartQuantities.first()).toHaveText(expectedQuantity);
     }
 
-    async removeProductfromCart() {
+    async removeProductfromCart() : Promise<void>{
         const productsData = await this.getCartProductsDetails();
         await expect(this.cartTableRows).toHaveCount(productsData.length);
         const rowCount = productsData.length;
@@ -91,7 +99,7 @@ export class CartPage extends BasePage {
             await expect(this.cartTableRows).toHaveCount(rowCount - i - 1);
         }
     }
-    async verifyCartIsEmpty() {
+    async verifyCartIsEmpty(): Promise<void> {
         await expect(this.emptyCartMessage).toBeVisible();
         await this.page.pause()
     }

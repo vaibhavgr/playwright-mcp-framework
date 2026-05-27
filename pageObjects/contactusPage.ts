@@ -3,19 +3,19 @@ import { ContactUsFormData } from "@data/contactusData";
 import { BasePage } from "./basePage";
 
 export class ContactUsPage extends BasePage {
-    readonly contactusheader: Locator
-    readonly textgetintouch: Locator
+    readonly contactusheader: Locator;
+    readonly textgetintouch: Locator;
 
     //contact us form
     readonly contactNameInput: Locator;
     readonly contactEmailInput: Locator;
     readonly contactSubmitButton: Locator;
     readonly contactSubjectInput: Locator
-    readonly contactMessage: Locator
-    readonly contactUploadfile: Locator
+    readonly contactMessage: Locator;
+    readonly contactUploadfile: Locator;
 
     //SuccesfulMessage
-    readonly successfulMessage : Locator
+    readonly successfulMessage : Locator;
 
 
 
@@ -38,22 +38,22 @@ export class ContactUsPage extends BasePage {
 
     }
     // Navigation actions
-    async goto() {
+     async goto(): Promise<void> {
         await this.navigateTo('/');
     }
 
-    async navigateToContactusPage() {
-        await this.contactusheader.click()
+    async navigateToContactusPage(): Promise<void> {
+        await this.contactusheader.click();
     }
 
-    async contactusForm(contactusdata: ContactUsFormData) {
+   async contactusForm(contactusdata: ContactUsFormData): Promise<void> {
         await this.contactNameInput.fill(contactusdata.contactName);
         await this.contactEmailInput.fill(contactusdata.contactEmail);
         await this.contactSubjectInput.fill(contactusdata.contactSubject);
         await this.contactMessage.fill(contactusdata.contactMessage);
         await this.contactUploadfile.setInputFiles('data/sample.txt');
         
-        await this.page.once('dialog', async dialog => {
+        this.page.once('dialog', async dialog => {
             await dialog.accept();
         });
         await this.contactSubmitButton.click();
@@ -61,14 +61,14 @@ export class ContactUsPage extends BasePage {
 
     //Assertions
 
-    async verifyGetintouch() {
-        await expect(this.textgetintouch).toBeVisible()
-        await expect(this.textgetintouch).toHaveText('Get In Touch')
+   async verifyGetintouch(): Promise<void> {
+        await expect(this.textgetintouch).toBeVisible();
+        await expect(this.textgetintouch).toHaveText('Get In Touch');
     }
 
-   async verifySuccessMessage(){
-        await expect(this.successfulMessage).toBeVisible()
-        await expect(this.successfulMessage).toHaveText('Success! Your details have been submitted successfully.')
-   }
+   async verifySuccessMessage(): Promise<void> {
+        await expect(this.successfulMessage).toBeVisible();
+        await expect(this.successfulMessage).toHaveText('Success! Your details have been submitted successfully.');
+    }
 
 }

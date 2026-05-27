@@ -5,13 +5,13 @@ import { BasePage } from './basePage';
 export class HomePage extends BasePage {
 
     readonly loggedInUser: Locator;
-    readonly deletaccountHeader: Locator
-    readonly textDeleteAccount: Locator
-    readonly continueBtn: Locator
-    readonly logoutHeader: Locator
-    readonly categoryHeading: Locator
-    readonly categoryList: Locator
-    readonly subcategory: Locator
+    readonly deletaccountHeader: Locator;
+    readonly textDeleteAccount: Locator;
+    readonly continueBtn: Locator;
+    readonly logoutHeader: Locator;
+    readonly categoryHeading: Locator;
+    readonly categoryList: Locator;
+    readonly subcategory: Locator;
 
 
 
@@ -31,42 +31,35 @@ export class HomePage extends BasePage {
     }
 
 
-    async goto() {
-        await this.navigateTo('/');;
+    async goto(): Promise<void> {
+        await this.navigateTo('/');
     }
 
-    async navigateToDeletePage() {
-        await this.deletaccountHeader.click()
+    async navigateToDeletePage(): Promise<void> {
+        await this.deletaccountHeader.click();
     }
 
-    async verifyAccountDeleted() {
+    async verifyAccountDeleted(): Promise<void> {
         expect(this.textDeleteAccount.isVisible());
         await expect(this.textDeleteAccount).toHaveText('Account Deleted!')
     }
 
-    async clickContinue() {
+    async clickContinue(): Promise<void> {
         await this.continueBtn.click();
     }
-    async logoutheaderBtn() {
+    async logoutheaderBtn(): Promise<void> {
         await this.logoutHeader.click()
     }
 
-    async verifyCategoriesVisible() {
-
+    async verifyCategoriesVisible(): Promise<void> {
         // 1. Heading visible honi chahiye
         await expect(this.categoryHeading).toBeVisible();
-
         const count = await this.categoryList.count()
-
         for (let i = 0; i < count; i++) {
             await expect(this.categoryList.nth(i)).toBeVisible();
-
-
         }
-
-
     }
-    async clickCategory(category: string, subcategory: string) {
+    async clickCategory(category: string, subcategory: string) : Promise<void>{
         // 1st line: Category click
         await this.categoryList.getByText(category, { exact: true }).click()
 

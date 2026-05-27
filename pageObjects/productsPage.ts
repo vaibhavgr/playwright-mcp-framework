@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { BasePage } from "./basePage";
 
 export class ProductPage extends BasePage {
-    
+
 
     // --- Locators: General ---
     readonly allproductText: Locator;
@@ -52,7 +52,7 @@ export class ProductPage extends BasePage {
 
     constructor(page: Page) {
         super(page)
-   
+
         // General
         this.allproductText = page.getByText('All Products', { exact: true });
         this.productsList = page.locator('.features_items');
@@ -105,50 +105,42 @@ export class ProductPage extends BasePage {
     // Navigation Methods
     // ==========================================
 
-    async goto() {
-         await this.navigateTo('/products');;
+    async goto(): Promise<void> {
+        await this.navigateTo('/products');
     }
-
-    async navigateToProductPage() {
+    async navigateToProductPage(): Promise<void> {
         await this.productHeader.click();
     }
-
     // ==========================================
     // Actions & Cart Operations
     // ==========================================
 
-    async listofProducts() {
+    async listofProducts(): Promise<void> {
         const print = await this.productsList.textContent();
     }
-
-    async clickViewProductFirst() {
+    async clickViewProductFirst(): Promise<void> {
         await this.viewProductFirstLink.click();
     }
-
-    async searchProduct(productName: string) {
+    async searchProduct(productName: string): Promise<void> {
         await this.searchProductfill.fill(productName);
         await this.searchProductIcon.click();
         const name = await this.searchProductListName.allTextContents();
         console.log(name);
     }
-
-    async clickContinueShopping() {
+    async clickContinueShopping(): Promise<void> {
         await this.continueShoppingBtn.click();
     }
-
-    async clickViewCartModal() {
+    async clickViewCartModal(): Promise<void> {
         await this.viewCartLinkModal.click();
     }
-
-    async increaseQuantity(quantity: string) {
+    async increaseQuantity(quantity: string): Promise<void> {
         await this.quantityInput.fill(quantity);
     }
-
-    async clickAddToCartBtn() {
+    async clickAddToCartBtn(): Promise<void> {
         await this.addToCartBtn.click();
     }
 
-    async addRandomProductsToCart() {
+    async addRandomProductsToCart(): Promise<number> {
         const totalProducts = await this.singleProducts.count();
         const tempLimit = 5;
         const maxPossible = Math.min(totalProducts, tempLimit);
@@ -190,11 +182,11 @@ export class ProductPage extends BasePage {
                 ]);
             }
         }
-        
+
 
         return randomCount;
     }
-    async verifyBrandsVisible() {
+    async verifyBrandsVisible(): Promise<void> {
         await expect(this.brandsHeading).toBeVisible();
         const count = await this.brandList.count();
         for (let i = 0; i < count; i++) {
@@ -205,11 +197,11 @@ export class ProductPage extends BasePage {
             console.log(brandName);
         }
     }
-    async clickBrand(brandName: string) {
+    async clickBrand(brandName: string): Promise<void> {
         await this.brandList.filter({ hasText: brandName }).first().click();
     }
 
-    async verifyBrandPage(brandName: string) {
+    async verifyBrandPage(brandName: string): Promise<void> {
         await expect(this.page).toHaveURL(new RegExp(`/brand_products/${brandName}`, 'i'));
         await expect(this.categoryTitle).toBeVisible();
         await expect(this.categoryTitle).toHaveText(new RegExp(`Brand - ${brandName} Products`, 'i'));
@@ -220,12 +212,12 @@ export class ProductPage extends BasePage {
     // Assertions
     // ==========================================
 
-    async verifyallProductsText() {
+    async verifyallProductsText(): Promise<void> {
         await expect(this.allproductText).toBeVisible();
         await expect(this.allproductText).toHaveText('All Products');
     }
 
-    async verifyProductDetails() {
+    async verifyProductDetails(): Promise<void> {
         await expect(this.page).toHaveURL(/\/product_details\/\d+/);
         await expect(this.productName).toBeVisible();
         await expect(this.productCategory).toBeVisible();
@@ -235,7 +227,7 @@ export class ProductPage extends BasePage {
         await expect(this.productBrand).toBeVisible();
     }
 
-    async verifySearchName() {
+    async verifySearchName(): Promise<void> {
         // Verify 'SEARCHED PRODUCTS' heading is visible
         await expect(this.searchedProductsHeader).toBeVisible();
 
@@ -245,12 +237,12 @@ export class ProductPage extends BasePage {
         expect(count).toBeGreaterThan(0);
     }
 
-    async verifyCategoryTitle(expectedTitle: string) {
+    async verifyCategoryTitle(expectedTitle: string): Promise<void> {
         await expect(this.categoryTitle).toBeVisible();
         await expect(this.categoryTitle).toHaveText(expectedTitle);
     }
 
-    async addAllSearchedProductsToCart() {
+    async addAllSearchedProductsToCart(): Promise<void> {
         const totalProducts = await this.singleProducts.count();
         for (let i = 0; i < totalProducts; i++) {
             const product = this.singleProducts.nth(i);
@@ -262,18 +254,18 @@ export class ProductPage extends BasePage {
         }
     }
 
-    async verifyReviewHeaderVisible() {
+    async verifyReviewHeaderVisible(): Promise<void> {
         await expect(this.writeYourReviewHeader).toBeVisible();
     }
 
-    async submitProductReview(name: string, email: string, reviewText: string) {
+    async submitProductReview(name: string, email: string, reviewText: string): Promise<void> {
         await this.reviewNameInput.fill(name);
         await this.reviewEmailInput.fill(email);
         await this.reviewTextInput.fill(reviewText);
         await this.submitReviewBtn.click();
     }
 
-   async verifyReviewSuccessMessage(expectedText: string) {
+    async verifyReviewSuccessMessage(expectedText: string): Promise<void> {
         await expect(this.reviewSuccessMsg).toBeVisible();
         await expect(this.reviewSuccessMsg).toHaveText(expectedText);
     }
