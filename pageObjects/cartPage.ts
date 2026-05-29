@@ -106,6 +106,8 @@ export class CartPage extends BasePage {
     async verifyProductInCart(expectedProductName: string): Promise<void> {
         const productsData = await this.getCartProductsDetails();
         const productNames = productsData.map(p => p.name);
+        //if want to fetch everything at once
+       //const detailedProductsList = (await this.getCartProductsDetails()).map(p => `${p.name} - ${p.price} - Qty: ${p.quantity}`);
         console.log(productNames);
         expect(productNames).toContain(expectedProductName);
     }

@@ -166,4 +166,12 @@ test.describe('Checkout Flow', () => {
         await paymentPage.verifySuccessOrdertext();
         await paymentPage.downloadAndVerifyInvoice(newUser.firstName, newUser.lastName, grandTotal);
     });
+
+    test('Test Case 23: Verify address details in checkout page (Covered inside Test Case 14/15/16)', async () => {
+        // Covered as part of Delivery Address verification in checkout tests
+    });
+
+    test('Test Case 24: Download Invoice after purchase order (Covered inside Test Case 14/15/16)', async () => {
+        // Covered as part of Invoice Download verification in checkout tests
+    });
 });

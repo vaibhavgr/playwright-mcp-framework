@@ -16,6 +16,9 @@ export class HomePage extends BasePage {
     readonly activeRecommendedProduct: Locator;
     readonly activeRecommendedProductName: Locator;
     readonly activeRecommendedAddToCartBtn: Locator;
+    readonly subscriptionHeading: Locator;
+    readonly scrollUpBtn: Locator;
+    readonly carouselHeader: Locator;
 
 
 
@@ -34,6 +37,9 @@ export class HomePage extends BasePage {
         this.activeRecommendedProduct = page.locator('.recommended_items .carousel-inner .item.active .col-sm-4').first();
         this.activeRecommendedProductName = this.activeRecommendedProduct.locator('p');
         this.activeRecommendedAddToCartBtn = this.activeRecommendedProduct.locator('.add-to-cart');
+        this.subscriptionHeading = page.getByRole('heading', { name: 'Subscription' });
+        this.scrollUpBtn = page.locator('#scrollUp');
+        this.carouselHeader = page.getByRole('heading', { name: 'Full-Fledged practice website for Automation Engineers' }).first();
 
 
     }
@@ -94,8 +100,23 @@ export class HomePage extends BasePage {
         return productName;
     }
 
+    async scrollToBottom(): Promise<void> {
+        await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    }
 
+    async verifySubscriptionVisible(): Promise<void> {
+        await expect(this.subscriptionHeading).toBeVisible();
+    }
 
+    async clickScrollUp(): Promise<void> {
+        await this.scrollUpBtn.click();
+    }
 
+    async verifyCarouselHeaderVisible(): Promise<void> {
+        await expect(this.carouselHeader).toBeVisible();
+    }
 
+    async scrollToTop(): Promise<void> {
+        await this.page.evaluate(() => window.scrollTo(0, 0));
+    }
 }
