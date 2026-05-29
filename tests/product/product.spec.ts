@@ -49,7 +49,7 @@ test.describe('Products Tests', () => {
     await productPage.verifySearchName()
 
   })
-  test.only('Test Case 18 : View Category Products', async ({ page, homePage, productPage }) => {
+  test('Test Case 18 : View Category Products', async ({ page, homePage, productPage }) => {
     // 1. Launch browser & 2. Navigate to url
     await homePage.goto();
 

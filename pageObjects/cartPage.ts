@@ -53,7 +53,7 @@ export class CartPage extends BasePage {
 
     async getCartProductsDetails(): Promise<CartProductDetails[]> {
         const rowCount = await this.cartTableRows.count()
-        const productsData : CartProductDetails[] = [];
+        const productsData: CartProductDetails[] = [];
 
         for (let i = 0; i < rowCount; i++) {
             const productName = await this.cartProducts.nth(i).innerText();
@@ -86,11 +86,11 @@ export class CartPage extends BasePage {
         }
     }
 
-    async verifyExactQuantity(expectedQuantity: string) : Promise<void>{
+    async verifyExactQuantity(expectedQuantity: string): Promise<void> {
         await expect(this.cartQuantities.first()).toHaveText(expectedQuantity);
     }
 
-    async removeProductfromCart() : Promise<void>{
+    async removeProductfromCart(): Promise<void> {
         const productsData = await this.getCartProductsDetails();
         await expect(this.cartTableRows).toHaveCount(productsData.length);
         const rowCount = productsData.length;
@@ -101,6 +101,12 @@ export class CartPage extends BasePage {
     }
     async verifyCartIsEmpty(): Promise<void> {
         await expect(this.emptyCartMessage).toBeVisible();
-        await this.page.pause()
+    }
+
+    async verifyProductInCart(expectedProductName: string): Promise<void> {
+        const productsData = await this.getCartProductsDetails();
+        const productNames = productsData.map(p => p.name);
+        console.log(productNames);
+        expect(productNames).toContain(expectedProductName);
     }
 }

@@ -57,4 +57,15 @@ test.describe('Products Tests', () => {
 
   })
 
+  test.only('Test Case 22: Add to cart from Recommended items', async ({ homePage, productPage, cartPage }) => {
+    await homePage.goto();
+    await homePage.scrollToRecommendedItems();
+    await homePage.verifyRecommendedHeadingVisible();
+
+    const addedProduct = await homePage.addFirstRecommendedProductToCart();
+    await productPage.clickViewCartModal();
+
+    await cartPage.verifyProductInCart(addedProduct);
+  });
+
 });

@@ -26,7 +26,7 @@ export class PaymentPage extends BasePage {
         this.downloadInvoiceBtn = page.getByRole('link', { name: 'Download Invoice' })
     }
 
-    async fillPaymentDetails(cardData: PaymentDetails) : Promise<void> {
+    async fillPaymentDetails(cardData: PaymentDetails): Promise<void> {
 
         await this.cardName.fill(cardData.nameOnCard);
         await this.cardNumber.fill(cardData.cardNumber);
@@ -37,7 +37,7 @@ export class PaymentPage extends BasePage {
 
     }
 
-    async verifySuccessOrdertext() : Promise<void>{
+    async verifySuccessOrdertext(): Promise<void> {
         await expect(this.successOrderMsg, 'Payment success message was not visible after clicking Pay').toBeVisible();
     }
 
@@ -50,12 +50,5 @@ export class PaymentPage extends BasePage {
         const filecontent = fs.readFileSync(filePath, 'utf-8')
         console.log(filecontent)
         expect(filecontent).toContain(`Hi ${userName} ${lastName}, Your total purchase amount is ${grandTotal}`);
-
-
-
     }
-
-
-
-
 }
