@@ -1,10 +1,12 @@
 import { CartPage } from '@pageObjects/cartPage';
 import { test } from '@fixtures/baseTest';
 import { expect } from '@playwright/test';
+import * as allure from 'allure-js-commons';
 
 test.describe('Products Tests', () => {
 
   test('Test Case 12: Add Products in Cart', async ({ homePage, productPage, cartPage }) => {
+
     // 1. Launch browser 
     // 2. Navigate to url 'http://automationexercise.com'
     await homePage.goto();
@@ -58,6 +60,12 @@ test.describe('Products Tests', () => {
   })
 
   test.only('Test Case 22: Add to cart from Recommended items', async ({ homePage, productPage, cartPage }) => {
+    await allure.description('This test verifies that users can successfully scroll down to recommended items and add them to the cart.');
+    await allure.severity('critical');
+    await allure.owner('Vaibhav');
+    await allure.tags('Cart', 'Recommended', 'Regression');
+    await allure.feature('Cart Management');
+    await allure.story('Add from Recommended Section');
     await homePage.goto();
     await homePage.scrollToRecommendedItems();
     await homePage.verifyRecommendedHeadingVisible();
