@@ -31,4 +31,31 @@ export class ApiUtils {
         const responseText = await response.text();
         return JSON.parse(responseText);
     }
+
+    /**
+     * Re-usable PUT Request 
+     * @param endpoint Target API Path 
+     * 
+     */
+
+    async put(endpoint: string , payload : Record<string , unknown>) : Promise<any> {
+        const response = await this.apiContext.put(endpoint, {
+            data : payload
+        })
+        const responseText = await response.text();
+        return JSON.parse(responseText);
+    }
+
+    /**
+     * Re-usable POST Request (Form Urlencoded Payload)
+     * Required for endpoints that expect form parameters (e.g. /api/searchProduct)
+     */
+    async postForm(endpoint: string, formPayload: Record<string, string>): Promise<any> {
+        const response = await this.apiContext.post(endpoint, {
+            form: formPayload
+        });
+        const responseText = await response.text();
+        return JSON.parse(responseText);
+    }
 }
+

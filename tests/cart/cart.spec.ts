@@ -59,7 +59,7 @@ test.describe('Products Tests', () => {
 
   })
 
-  test.only('Test Case 22: Add to cart from Recommended items', async ({ homePage, productPage, cartPage }) => {
+  test('Test Case 22: Add to cart from Recommended items', async ({ homePage, productPage, cartPage }) => {
     await allure.description('This test verifies that users can successfully scroll down to recommended items and add them to the cart.');
     await allure.severity('critical');
     await allure.owner('Vaibhav');
