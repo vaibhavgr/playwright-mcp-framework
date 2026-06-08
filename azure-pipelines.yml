@@ -1,0 +1,37 @@
+trigger:
+- main
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm ci
+  displayName: 'Install dependencies'
+
+- script: |
+    npx playwright install --with-deps
+  displayName: 'Install Playwright Browsers'
+
+- script: |
+    npx playwright test
+  displayName: 'Run Playwright tests'
+  env:
+    ENV: 'dev'
+  continueOnError: true 
+
+- task: PublishTestResults@2
+  displayName: 'Publish Playwright Test Results to ADO'
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit-results.xml' 
+    searchFolder: '$(System.DefaultWorkingDirectory)/reports'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+  condition: always() 
