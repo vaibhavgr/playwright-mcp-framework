@@ -19,6 +19,9 @@ jobs:
       run: npx playwright install chromium --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+      env:
+        ENV: dev
+        HEADLESS: 'true'
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
