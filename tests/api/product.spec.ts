@@ -34,7 +34,7 @@ test.describe('API Testing - Products using ApiUtils', () => {
     });
 
 
-    test.only('TC_API_05_ POST To Search Product - returns 200', async ({ apiUtil }) => {
+    test('TC_API_05_ POST To Search Product - returns 200', async ({ apiUtil }) => {
         const searchProduct = "tshirt"
         const response = await apiUtil.postForm('api/searchProduct', {
             search_product: searchProduct

@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { ContactUsFormData } from "@data/contactusData";
 import { BasePage } from "./basePage";
+import path from "path";
 
 export class ContactUsPage extends BasePage {
     readonly contactusheader: Locator;
@@ -15,7 +16,7 @@ export class ContactUsPage extends BasePage {
     readonly contactUploadfile: Locator;
 
     //SuccesfulMessage
-    readonly successfulMessage : Locator;
+    readonly successfulMessage: Locator;
 
 
 
@@ -38,7 +39,7 @@ export class ContactUsPage extends BasePage {
 
     }
     // Navigation actions
-     async goto(): Promise<void> {
+    async goto(): Promise<void> {
         await this.navigateTo('/');
     }
 
@@ -46,27 +47,30 @@ export class ContactUsPage extends BasePage {
         await this.contactusheader.click();
     }
 
-   async contactusForm(contactusdata: ContactUsFormData): Promise<void> {
+    async contactusForm(contactusdata: ContactUsFormData): Promise<void> {
         await this.contactNameInput.fill(contactusdata.contactName);
         await this.contactEmailInput.fill(contactusdata.contactEmail);
         await this.contactSubjectInput.fill(contactusdata.contactSubject);
         await this.contactMessage.fill(contactusdata.contactMessage);
         await this.contactUploadfile.setInputFiles('data/sample.txt');
-        
-        this.page.once('dialog', async dialog => {
+
+        await this.page.once('dialog', async dialog => {
             await dialog.accept();
         });
+
+        await this.page.waitForLoadState('domcontentloaded')
         await this.contactSubmitButton.click();
+
     }
 
     //Assertions
 
-   async verifyGetintouch(): Promise<void> {
+    async verifyGetintouch(): Promise<void> {
         await expect(this.textgetintouch).toBeVisible();
         await expect(this.textgetintouch).toHaveText('Get In Touch');
     }
 
-   async verifySuccessMessage(): Promise<void> {
+    async verifySuccessMessage() {
         await expect(this.successfulMessage).toBeVisible();
         await expect(this.successfulMessage).toHaveText('Success! Your details have been submitted successfully.');
     }
