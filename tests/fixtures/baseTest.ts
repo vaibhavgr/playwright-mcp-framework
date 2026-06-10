@@ -1,4 +1,5 @@
 import { test as baseTest } from '@playwright/test';
+import { Logger } from '@utils/Logger';
 
 
 import { LoginPage } from '@pageObjects/loginPage';
@@ -21,13 +22,13 @@ type MyFixtures = {
     signUpLoginPage: SignUpLoginPage;
     apiUtil: ApiUtils;
     checkoutPage: CheckoutPage;
-    paymentPage : PaymentPage
+    paymentPage: PaymentPage
 };
 
 
 // 2. Pass the type <MyFixtures> into the extend function
 export const test = baseTest.extend<MyFixtures>({
-    
+
     // Override the default 'page' fixture to block ads globally
     page: async ({ page }, use) => {
         await page.route('**/*', (route) => {
@@ -46,12 +47,12 @@ export const test = baseTest.extend<MyFixtures>({
     },
 
 
-    paymentPage : async({page}, use)=>{
+    paymentPage: async ({ page }, use) => {
         const paymentPage = new PaymentPage(page);
-        await use (paymentPage)
+        await use(paymentPage)
     },
 
-    
+
     cartPage: async ({ page }, use) => {
         const cartPage = new CartPage(page);
         await use(cartPage);
@@ -86,4 +87,10 @@ export const test = baseTest.extend<MyFixtures>({
         const checkoutPage = new CheckoutPage(page);
         await use(checkoutPage);
     },
+
+
 });
+
+test.beforeEach(async ({ }, testinfo) => {
+    Logger.info(`Testing my news logger for: ${testinfo.title}`);
+})
