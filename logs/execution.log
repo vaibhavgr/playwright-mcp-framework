@@ -1,2 +1,4 @@
-Testing my new logger for: Register with existing emailTesting my news logger for: Register with existing emailTesting my news logger for: Register with existing email
-{"level":"info","timestamp":"2026-06-10T10:57:33.658Z","message":"Testing my news logger for: Register with existing email"}
+{"level":"info","timestamp":"2026-06-11T07:34:21.544Z","message":"Testing my news logger for: Register with existing email"}
+{"level":"info","timestamp":"2026-06-11T07:34:30.786Z","message":"Test Passed : Register with existing email in 8648ms"}
+{"level":"info","timestamp":"2026-06-11T07:37:30.049Z","message":"Testing my news logger for: Register with existing email"}
+{"level":"info","timestamp":"2026-06-11T07:37:36.108Z","message":"Test Passed : Register with existing email in 3613ms"}

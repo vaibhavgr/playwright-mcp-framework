@@ -87,10 +87,21 @@ export const test = baseTest.extend<MyFixtures>({
         const checkoutPage = new CheckoutPage(page);
         await use(checkoutPage);
     },
-
-
 });
 
 test.beforeEach(async ({ }, testinfo) => {
-    Logger.info(`Testing my news logger for: ${testinfo.title}`);
+    Logger.info(`Currently test running: ${testinfo.title}`);
 })
+
+test.afterEach(async ({ }, testinfo) => {
+    const status = testinfo.status;
+    const duration = testinfo.duration;
+
+    if (status == 'passed') {
+        Logger.info(`Test Passed : ${testinfo.title} in ${duration}ms`);
+    } else if (status == 'failed' || status === 'timedOut') {
+        Logger.error(`Test failed : ${testinfo.title} in ${duration}ms`,
+            testinfo.error?.stack || testinfo.error?.message
+        );
+    }
+});
