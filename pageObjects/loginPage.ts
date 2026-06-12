@@ -1,4 +1,4 @@
-import { Locator, Page, test  } from '@playwright/test';
+import { Locator, Page, test } from '@playwright/test';
 import { BasePage } from './basePage';
 import { Logger } from '@utils/Logger';
 
@@ -23,7 +23,7 @@ export class LoginPage extends BasePage {
     }
     async loginValidUser(email: string, password: string): Promise<void> {
         await test.step(`Enter valid credentials for ${email}`, async () => {
-            //Logger.info("ENtering creds for new email")
+            Logger.info(`Filling Creds on login for ${email}`)
             await this.loginEmail.fill(email);
             await this.loginPassword.fill(password);
         });
