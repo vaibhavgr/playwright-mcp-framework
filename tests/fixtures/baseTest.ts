@@ -1,5 +1,6 @@
 import { test as baseTest } from '@playwright/test';
 import { Logger } from '@utils/Logger';
+import path from 'path';
 
 
 import { LoginPage } from '@pageObjects/loginPage';
@@ -88,20 +89,45 @@ export const test = baseTest.extend<MyFixtures>({
         await use(checkoutPage);
     },
 });
-
 test.beforeEach(async ({ }, testinfo) => {
-    Logger.info(`Currently test running: ${testinfo.title}`);
-})
+    const relativeSuitePath = path.relative(process.cwd(), testinfo.file).replace(/\\/g, '/');
+    Logger.info(`Currently test running: ${testinfo.title}`, {
+        testName: testinfo.title,
+        browser: testinfo.project.name,
+        suite: relativeSuitePath,
+        status : 'running'
+    });
+});
 
-test.afterEach(async ({ }, testinfo) => {
+test.afterEach(async ({ page }, testinfo) => {
     const status = testinfo.status;
     const duration = testinfo.duration;
+    const relativeSuitePath = path.relative(process.cwd(), testinfo.file).replace(/\\/g, '/');
 
-    if (status == 'passed') {
-        Logger.info(`Test Passed : ${testinfo.title} in ${duration}ms`);
-    } else if (status == 'failed' || status === 'timedOut') {
-        Logger.error(`Test failed : ${testinfo.title} in ${duration}ms`,
-            testinfo.error?.stack || testinfo.error?.message
+    let currentUrl = '';
+    try {
+        currentUrl = page.url();
+    } catch (e) {
+        // Safe check in case browser is closed
+    }
+
+    const metadata = {
+        testName: testinfo.title,
+        browser: testinfo.project.name,
+        suite: relativeSuitePath,
+        status: status,
+        duration: duration,
+        url: currentUrl
+    };
+
+    if (status === 'passed') {
+        Logger.info(`Test Passed : ${testinfo.title} in ${duration}ms`, metadata);
+    } else if (status === 'failed' || status === 'timedOut') {
+        Logger.error(
+            `Test failed : ${testinfo.title} in ${duration}ms`,
+            testinfo.error?.stack || testinfo.error?.message,
+            metadata
         );
     }
 });
+

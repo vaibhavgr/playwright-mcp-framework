@@ -1,6 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 
+
+export interface LogMetadata {
+    testName?: string;
+    browser?: string;
+    suite?: string;
+    duration?: number;
+    status?: string;
+    url?: string;
+    [key: string]: any;
+}
 export class Logger {
 
     //creating file to save logs 
@@ -10,9 +20,9 @@ export class Logger {
         return path.resolve(`logs/execution-${today}.log`);
     }
 
-    
-    static info(message: string) {
-        console.log(`[INFO] ${message}`); 
+
+    static info(message: string, metadata?: LogMetadata) {
+        console.log(`[INFO] ${message}`);
         const logFile = this.getLogFilePath();
         const dir = path.dirname(logFile);
         // Folder check & creation
@@ -23,7 +33,9 @@ export class Logger {
         const logEntry = {
             level: 'info',
             timestamp: timestamp,
-            message: message
+            message: message,
+            runID: process.env.RUN_ID,
+            ...metadata
         };
         // File me save
         fs.appendFileSync(logFile, JSON.stringify(logEntry) + '\n');
@@ -33,8 +45,8 @@ export class Logger {
 
 
     // 2. Error method 
-    static error(message: string, errorDetails?: string) {
-        console.error(`[ERROR] ${message} - ${errorDetails || ''}`); 
+    static error(message: string, errorDetails?: string, metadata?: LogMetadata) {
+        console.error(`[ERROR] ${message} - ${errorDetails || ''}`);
         const logFile = this.getLogFilePath();
         const dir = path.dirname(logFile);
         // Folder check & creation (Duplicate Code)
@@ -46,14 +58,16 @@ export class Logger {
             level: 'error',
             timestamp: timestamp,
             message: message,
-            error: errorDetails || ''
+            error: errorDetails || '',
+            runId: process.env.RUN_ID || 'run_local',
+            ...metadata
         };
         // File me save (Duplicate Code)
         fs.appendFileSync(logFile, JSON.stringify(logEntry) + '\n');
     }
 }
-   
-    
+
+
 
 
 

@@ -1,6 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 import { config } from './config/envLoader';
 
+//create run unique generate id 
+process.env.RUN_ID = `run_${Date.now()}`;
+
 /**
  * Playwright Test Configuration
  * See https://playwright.dev/docs/test-configuration for reference.
@@ -48,6 +51,15 @@ export default defineConfig({
 
     // Bypass HTTPS errors and self-signed certificate issues
     ignoreHTTPSErrors: true,
+
+    // Custom HTTP headers to impersonate a real browser.
+    // This is required to bypass bot-detection / Cloudflare protection (403 Forbidden) on automationexercise.com API endpoints.
+    extraHTTPHeaders: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Encoding': 'gzip, deflate, br',
+    },
   },
 
   /**
