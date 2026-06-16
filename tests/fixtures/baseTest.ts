@@ -104,20 +104,14 @@ test.afterEach(async ({ page }, testinfo) => {
     const duration = testinfo.duration;
     const relativeSuitePath = path.relative(process.cwd(), testinfo.file).replace(/\\/g, '/');
 
-    let currentUrl = '';
-    try {
-        currentUrl = page.url();
-    } catch (e) {
-        // Safe check in case browser is closed
-    }
-
+   
     const metadata = {
         testName: testinfo.title,
         browser: testinfo.project.name,
         suite: relativeSuitePath,
         status: status,
         duration: duration,
-        url: currentUrl
+       
     };
 
     if (status === 'passed') {
