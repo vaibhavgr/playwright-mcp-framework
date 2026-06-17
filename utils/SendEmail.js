@@ -183,24 +183,14 @@ async function sendResultEmail() {
 
     // 5. ZIP attachment configure karenge (agar pipeline mein generate ho gaya ho)
     const attachments = [];
-    const zipPath = path.resolve('reports/html-report.zip');
-    if (fs.existsSync(zipPath)) {
-        attachments.push({
-            filename: `playwright-html-report-${new Date().toISOString().split('T')[0]}.zip`,
-            path: zipPath
-        });
-        console.log("📎 Attached zipped HTML report successfully.");
-    } else {
-        console.warn("⚠️ Warning: reports/html-report.zip not found! Sending email without report attachment.");
-    }
-
+    
     // Mail options set karenge
     const mailOptions = {
         from: `"Playwright E2E Reporter" <${smtpUser}>`,
         to: emailTo,
         subject: `[Playwright CI] Status: ${runStatus} | Pass Rate: ${totalPassRate} (${totalPassed}/${totalTests})`,
         html: htmlTemplate,
-        attachments: attachments
+        
     };
 
     // Mail send karenge
