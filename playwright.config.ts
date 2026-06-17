@@ -70,7 +70,8 @@ export default defineConfig({
   reporter: [
     ['html', { outputFolder: 'reports/html', open: 'never' }],
     ['allure-playwright', { outputFolder: 'allure-results' }],
-    ['junit', { outputFile: 'reports/junit-results.xml' }]
+    ['junit', { outputFile: 'reports/junit-results.xml' }],
+    ['json',{outputFile :'reports/report.json' }]
   ],
 
   /**
