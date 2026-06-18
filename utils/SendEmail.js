@@ -29,17 +29,25 @@ async function sendResultEmail() {
     let apiStats = { total: 0, passed: 0, failed: 0, skipped: 0 };
 
     // Function to parse the suite tree and collect counts
-    function parseSuite(suite) {
+    function parseSuite(suite, currentFile = '') {
+        // If this suite has a file property, update currentFile
+        if (suite.file) {
+            currentFile = suite.file;
+        }
+
         if (suite.specs) {
             for (const spec of suite.specs) {
-                // Agar file path mein 'api' folder ya text hai to API test, nahi to Web test
-                const isApi = spec.file && (spec.file.includes('/api/') || spec.file.includes('\\api\\') || spec.file.includes('api.spec'));
+                // Determine if this file path represents an API test
+                const isApi = currentFile && (
+                    currentFile.replace(/\\/g, '/').split('/').includes('api') || 
+                    currentFile.includes('api.spec')
+                );
                 const stats = isApi ? apiStats : webStats;
 
                 for (const test of spec.tests) {
                     stats.total++;
                     const resultStatus = test.results && test.results[0] ? test.results[0].status : 'skipped';
-
+                    
                     if (resultStatus === 'passed') {
                         stats.passed++;
                     } else if (resultStatus === 'failed' || resultStatus === 'timedOut') {
@@ -52,7 +60,7 @@ async function sendResultEmail() {
         }
         if (suite.suites) {
             for (const childSuite of suite.suites) {
-                parseSuite(childSuite);
+                parseSuite(childSuite, currentFile);
             }
         }
     }
@@ -60,7 +68,7 @@ async function sendResultEmail() {
     // Saare suites ko traverse karenge
     if (report.suites) {
         for (const suite of report.suites) {
-            parseSuite(suite);
+            parseSuite(suite, '');
         }
     }
 
@@ -183,14 +191,14 @@ async function sendResultEmail() {
 
     // 5. ZIP attachment configure karenge (agar pipeline mein generate ho gaya ho)
     const attachments = [];
-    
+
     // Mail options set karenge
     const mailOptions = {
         from: `"Playwright E2E Reporter" <${smtpUser}>`,
         to: emailTo,
         subject: `[Playwright CI] Status: ${runStatus} | Pass Rate: ${totalPassRate} (${totalPassed}/${totalTests})`,
         html: htmlTemplate,
-        
+
     };
 
     // Mail send karenge
