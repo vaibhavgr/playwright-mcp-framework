@@ -17,7 +17,7 @@ setup('authenticate user and save storage state', async ({ loginPage, page }) =>
     await loginPage.loginBtnClick();
     
     // 3. Wait for URL redirect (Home page)
-    await page.waitForURL('**/');
+    await page.waitForURL('**/', { waitUntil: 'domcontentloaded' });
     
     // 4. Save state
     await page.context().storageState({ path: authFile });

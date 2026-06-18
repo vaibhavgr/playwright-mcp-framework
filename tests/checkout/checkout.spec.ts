@@ -32,7 +32,7 @@ test.describe('Checkout Flow', () => {
 
         // --- 12. Click 'Cart' button to go back to cart ---
         await Promise.all([
-            page.waitForURL('**/view_cart'),
+            page.waitForURL('**/view_cart', { waitUntil: 'domcontentloaded' }),
             cartPage.clickCartBtn()
         ]);
 

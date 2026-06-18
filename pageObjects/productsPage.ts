@@ -177,7 +177,7 @@ export class ProductPage extends BasePage {
                 await this.continueShoppingBtn.waitFor({ state: 'hidden' });
             } else {
                 await Promise.all([
-                    this.page.waitForURL('**/view_cart'),
+                    this.page.waitForURL('**/view_cart', { waitUntil: 'domcontentloaded' }),
                     this.viewCartLinkModal.click()
                 ]);
             }
