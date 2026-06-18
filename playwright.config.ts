@@ -41,6 +41,10 @@ export default defineConfig({
     browserName: config.browser as any,
 
     // Capture screenshot only on test failure
+    // Set real user agent at context level to prevent Cloudflare detection
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+
+    // Capture screenshot only on test failure
     screenshot: 'only-on-failure',
 
     // Record video only on test failure
@@ -55,7 +59,6 @@ export default defineConfig({
     // Custom HTTP headers to impersonate a real browser.
     // This is required to bypass bot-detection / Cloudflare protection (403 Forbidden) on automationexercise.com API endpoints.
     extraHTTPHeaders: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
       'Accept-Language': 'en-US,en;q=0.9',
       'Accept-Encoding': 'gzip, deflate, br',
