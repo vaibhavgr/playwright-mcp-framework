@@ -50,10 +50,10 @@ export const getinvalidUser = (): invalidloginUser => {
 };
 export const getexistingUser = (): existingUser => {
     return {
-        name : UniqueGenerator.getUniqueName(),
+        name: 'Testing Playwright',
         email: "rcb01@gmail.com",
         password: 'Password@123',
-        
+
     };
 };
 

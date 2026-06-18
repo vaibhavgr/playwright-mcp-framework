@@ -79,12 +79,17 @@ export default defineConfig({
    */
   projects: [
     {
-      name: 'Web',
-      use: {
-        browserName: 'chromium',
-        //headless: true,
-      },
+      name : 'setup',
+      testMatch: /.*\.setup\.ts/, 
     },
+    {
+      name : 'web',
+      testIgnore: /.*\.setup\.ts/,
+      use : {
+        browserName : 'chromium',
+      },
+      dependencies : ['setup'],
+    }
     // {
     //   name: 'Mobile_IOS',
     //   use: {
