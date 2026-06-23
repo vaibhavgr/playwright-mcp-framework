@@ -20,10 +20,10 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install chromium --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: xvfb-run npx playwright test
       env:
         ENV: dev
-        HEADLESS: 'true'
+        HEADLESS: 'false'
 
     # 1. Zip HTML report folder
     - name: Zip HTML Report
