@@ -33,7 +33,31 @@ test.describe('Advanced Network Interception & Observability', () => {
       });
 
 
-      test('TC_NET_02 : Simulate Server Crash(500 Error)', async ({page})=>{
-            
+      test('TC_NET_02 : Simulate Server Crash(500 Error)', async ({ page }) => {
+            await page.route('**/api/brandsList', async (route) => {
+                  Logger.info('Simulating Server Crash');
+                  await route.fulfill({
+                        status: 500,
+                        contentType: 'application/json',
+                        body: JSON.stringify({
+                              message: "Internal server error"
+                        })
+                  });
+            });
+
+            await page.goto('/');
+            const response = await page.evaluate(async () => {
+                  const res = await fetch('/api/brandsList');
+                  return {
+                        status: res.status, // Should return 500
+                        ok: res.ok          // res.ok check karega true/false based on status
+
+                  }
+            })
+            Logger.info(`Server Crash Response: ${JSON.stringify(response)}`);
+            expect(response.status).toBe(500);
+            expect(response.ok).toBe(false);
       })
+
+
 });
