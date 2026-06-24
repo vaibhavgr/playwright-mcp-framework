@@ -20,6 +20,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install chromium --with-deps
     - name: Run Playwright tests
+      # Virtual Screen (Xvfb): Linux runners par headed browser direct nahi chal sakta, isliye humne xvfb-run utility setup ki hai jo Linux memory me ek virtual display buffer (fake screen) banakar headed execution ko enable kar deti hai.
       run: xvfb-run npx playwright test
       env:
         ENV: dev
