@@ -74,7 +74,7 @@ export default defineConfig({
     ['html', { outputFolder: 'reports/html', open: 'never' }],
     ['allure-playwright', { outputFolder: 'allure-results' }],
     ['junit', { outputFile: 'reports/junit-results.xml' }],
-    ['json',{outputFile :'reports/report.json' }]
+    ['json', { outputFile: 'reports/report.json' }]
   ],
 
   /**
@@ -82,16 +82,16 @@ export default defineConfig({
    */
   projects: [
     {
-      name : 'setup',
-      testMatch: /.*\.setup\.ts/, 
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
     },
     {
-      name : 'web',
+      name: 'web',
       testIgnore: /.*\.setup\.ts/,
-      use : {
-        browserName : 'chromium',
+      use: {
+        browserName: 'chromium',
       },
-      dependencies : ['setup'],
+      //dependencies : ['setup'],
     }
     // {
     //   name: 'Mobile_IOS',

@@ -1,6 +1,9 @@
-import { test as baseTest } from '@playwright/test';
+import { test as baseTest, Page } from '@playwright/test';
 import { Logger } from '@utils/Logger';
 import path from 'path';
+import AxeBuilder from '@axe-core/playwright';
+import fs from 'fs';
+import { getexistingUser } from '@data/userData';
 
 
 import { LoginPage } from '@pageObjects/loginPage';
@@ -15,7 +18,9 @@ import { PaymentPage } from '@pageObjects/paymentPage';
 
 // 1. Declare the type of your custom fixtures
 type MyFixtures = {
+    authPage: Page;
     loginPage: LoginPage;
+    axeBuilder: AxeBuilder;
     cartPage: CartPage;
     contactUsPage: ContactUsPage;
     homePage: HomePage;
@@ -23,7 +28,7 @@ type MyFixtures = {
     signUpLoginPage: SignUpLoginPage;
     apiUtil: ApiUtils;
     checkoutPage: CheckoutPage;
-    paymentPage: PaymentPage
+    paymentPage: PaymentPage;
 };
 
 
@@ -42,17 +47,73 @@ export const test = baseTest.extend<MyFixtures>({
         });
         await use(page);
     },
+
+    authPage: async ({ browser }, use) => {
+        const authPath = path.resolve('playwright/.auth/user.json');
+
+        if (!fs.existsSync(authPath)) {
+            Logger.info('Session json not found. Performing dynamic run-time login...');
+            
+            const context = await browser.newContext();
+            const page = await context.newPage();
+
+            await page.route('**/*', (route) => {
+                const url = route.request().url();
+                if (url.includes('googleads') || url.includes('googlesyndication') || url.includes('doubleclick') || url.includes('adservice')) {
+                    route.abort();
+                } else {
+                    route.continue();
+                }
+            });
+
+            const loginPage = new LoginPage(page);
+            await loginPage.goto();
+
+            const existingUserData = getexistingUser();
+            await loginPage.loginValidUser(existingUserData.email, existingUserData.password);
+            await loginPage.loginBtnClick();
+            await page.waitForURL('**/', { waitUntil: 'domcontentloaded' });
+
+            // Folder & file create karke state save karenge
+            const dir = path.dirname(authPath);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            await page.context().storageState({ path: authPath });
+            await context.close();
+            Logger.info('Auth state successfully saved on-demand.');
+        }
+
+        const authedContext = await browser.newContext({ storageState: authPath });
+        const authedPage = await authedContext.newPage();
+
+        await authedPage.route('**/*', (route) => {
+            const url = route.request().url();
+            if (url.includes('googleads') || url.includes('googlesyndication') || url.includes('doubleclick') || url.includes('adservice')) {
+                route.abort();
+            } else {
+                route.continue();
+            }
+        });
+
+        await use(authedPage);
+
+        await authedPage.close();
+        await authedContext.close();
+    },
+
     loginPage: async ({ page }, use) => {
         const loginPage = new LoginPage(page);
         await use(loginPage);
     },
-
-
     paymentPage: async ({ page }, use) => {
         const paymentPage = new PaymentPage(page);
         await use(paymentPage)
     },
-
+    axeBuilder: async ({ page }, use) => {
+        const axeBuilder = new AxeBuilder({ page });
+        await use(axeBuilder);
+    },
 
     cartPage: async ({ page }, use) => {
         const cartPage = new CartPage(page);
@@ -95,7 +156,7 @@ test.beforeEach(async ({ }, testinfo) => {
         testName: testinfo.title,
         browser: testinfo.project.name,
         suite: relativeSuitePath,
-        status : 'running'
+        status: 'running'
     });
 });
 
@@ -104,14 +165,14 @@ test.afterEach(async ({ page }, testinfo) => {
     const duration = testinfo.duration;
     const relativeSuitePath = path.relative(process.cwd(), testinfo.file).replace(/\\/g, '/');
 
-   
+
     const metadata = {
         testName: testinfo.title,
         browser: testinfo.project.name,
         suite: relativeSuitePath,
         status: status,
         duration: duration,
-       
+
     };
 
     if (status === 'passed') {
