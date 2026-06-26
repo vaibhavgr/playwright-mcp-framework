@@ -4,8 +4,6 @@ import { testCardData } from '@data/paymentData';
 import { getexistingUser } from '@data/userData';
 
 test.describe('Authenticated Checkout Flow', () => {
-    // Ye line Playwright ko bolti hai ki saved login state load karein
-    test.use({ storageState: 'playwright/.auth/user.json' });
 
     test('Place Order as Logged In User (Direct Checkout)', async ({ page, paymentPage, homePage, productPage, cartPage, checkoutPage }) => {
         // Direct home page par navigation - login step bypass!

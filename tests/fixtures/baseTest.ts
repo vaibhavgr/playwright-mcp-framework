@@ -18,7 +18,6 @@ import { PaymentPage } from '@pageObjects/paymentPage';
 
 // 1. Declare the type of your custom fixtures
 type MyFixtures = {
-    authPage: Page;
     loginPage: LoginPage;
     axeBuilder: AxeBuilder;
     cartPage: CartPage;
@@ -35,8 +34,9 @@ type MyFixtures = {
 // 2. Pass the type <MyFixtures> into the extend function
 export const test = baseTest.extend<MyFixtures>({
 
-    // Override the default 'page' fixture to block ads globally
-    page: async ({ page }, use) => {
+    // Override the default 'page' fixture to handle ads block AND dynamic on-demand login
+    page: async ({ page }, use, testInfo) => {
+        // 1. Block ads globally
         await page.route('**/*', (route) => {
             const url = route.request().url();
             if (url.includes('googleads') || url.includes('googlesyndication') || url.includes('doubleclick') || url.includes('adservice')) {
@@ -45,61 +45,43 @@ export const test = baseTest.extend<MyFixtures>({
                 route.continue();
             }
         });
-        await use(page);
-    },
 
-    authPage: async ({ browser }, use) => {
-        const authPath = path.resolve('playwright/.auth/user.json');
+        // 2. Check if the test is an authenticated test
+        const isAuthTest = testInfo.title.toLowerCase().includes('logged in') || 
+                           testInfo.tags?.includes('@auth') ||
+                           testInfo.file.toLowerCase().includes('authenticated');
 
-        if (!fs.existsSync(authPath)) {
-            Logger.info('Session json not found. Performing dynamic run-time login...');
-            
-            const context = await browser.newContext();
-            const page = await context.newPage();
+        if (isAuthTest) {
+            const authPath = path.resolve('playwright/.auth/user.json');
 
-            await page.route('**/*', (route) => {
-                const url = route.request().url();
-                if (url.includes('googleads') || url.includes('googlesyndication') || url.includes('doubleclick') || url.includes('adservice')) {
-                    route.abort();
-                } else {
-                    route.continue();
+            // If user.json doesn't exist, login and save it
+            if (!fs.existsSync(authPath)) {
+                Logger.info('Auth file missing. Performing dynamic on-demand login...');
+                
+                const loginPage = new LoginPage(page);
+                await loginPage.goto();
+
+                const existingUserData = getexistingUser();
+                await loginPage.loginValidUser(existingUserData.email, existingUserData.password);
+                await loginPage.loginBtnClick();
+                await page.waitForURL('**/', { waitUntil: 'domcontentloaded' });
+
+                // Create folder and save state
+                const dir = path.dirname(authPath);
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
                 }
-            });
-
-            const loginPage = new LoginPage(page);
-            await loginPage.goto();
-
-            const existingUserData = getexistingUser();
-            await loginPage.loginValidUser(existingUserData.email, existingUserData.password);
-            await loginPage.loginBtnClick();
-            await page.waitForURL('**/', { waitUntil: 'domcontentloaded' });
-
-            // Folder & file create karke state save karenge
-            const dir = path.dirname(authPath);
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, { recursive: true });
+                await page.context().storageState({ path: authPath });
+                Logger.info('Auth state successfully saved on-demand.');
+            } else {
+                // If user.json exists, inject cookies
+                Logger.info('Auth file found. Injecting logged-in session cookies...');
+                const state = JSON.parse(fs.readFileSync(authPath, 'utf-8'));
+                await page.context().addCookies(state.cookies);
             }
-            await page.context().storageState({ path: authPath });
-            await context.close();
-            Logger.info('Auth state successfully saved on-demand.');
         }
 
-        const authedContext = await browser.newContext({ storageState: authPath });
-        const authedPage = await authedContext.newPage();
-
-        await authedPage.route('**/*', (route) => {
-            const url = route.request().url();
-            if (url.includes('googleads') || url.includes('googlesyndication') || url.includes('doubleclick') || url.includes('adservice')) {
-                route.abort();
-            } else {
-                route.continue();
-            }
-        });
-
-        await use(authedPage);
-
-        await authedPage.close();
-        await authedContext.close();
+        await use(page);
     },
 
     loginPage: async ({ page }, use) => {
