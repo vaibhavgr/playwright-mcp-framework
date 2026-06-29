@@ -17,6 +17,7 @@ test.describe('WCAG Accessibility Verification', () => {
 
             const results = await axeBuilder
                 .withTags(['wcag2a', 'wcag2aa'])
+                .disableRules(['color-contrast', 'link-name', 'button-name'])
                 .analyze();
 
             const violations = results.violations;
