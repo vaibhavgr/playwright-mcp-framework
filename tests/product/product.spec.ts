@@ -1,6 +1,7 @@
 import { test } from '@fixtures/baseTest';
 import { expect } from '@playwright/test';
 import { getexistingUser } from '@data/userData';
+import { Logger } from '@utils/Logger';
 
 test.describe('Products Tests', () => {
 
@@ -106,7 +107,7 @@ test.describe('Products Tests', () => {
     // 5. Verify 'SEARCHED PRODUCTS' is visible and related products are visible
     await productPage.verifySearchName();
     const searchProductNames = await productPage.searchProductListName.allTextContents();
-    console.log(searchProductNames)
+    Logger.info('Searched product names found: ' + JSON.stringify(searchProductNames));
 
 
     // 6. Add those products to cart

@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { faker } from '@faker-js/faker';
 import { BasePage } from "./basePage";
+import { Logger } from "@utils/Logger";
 
 export class ProductPage extends BasePage {
 
@@ -125,7 +126,7 @@ export class ProductPage extends BasePage {
         await this.searchProductfill.fill(productName);
         await this.searchProductIcon.click();
         const name = await this.searchProductListName.allTextContents();
-        console.log(name);
+        Logger.info("Searched product list: " + JSON.stringify(name));
     }
     async clickContinueShopping(): Promise<void> {
         await this.continueShoppingBtn.click();
@@ -146,7 +147,7 @@ export class ProductPage extends BasePage {
         const maxPossible = Math.min(totalProducts, tempLimit);
         const randomCount = faker.number.int({ min: 1, max: maxPossible });
 
-        console.log(`random add ${randomCount} products`);
+        Logger.info(`Adding ${randomCount} random products to cart...`);
 
         // create indices [0,1,2,...]
         const indices = [];
@@ -160,7 +161,7 @@ export class ProductPage extends BasePage {
 
         for (let i = 0; i < selected.length; i++) {
             const index = selected[i];
-            console.log(`Clicking index: ${index}`);
+            Logger.info(`Clicking product at index: ${index}`);
 
             const product = this.singleProducts.nth(index);
 
@@ -170,7 +171,7 @@ export class ProductPage extends BasePage {
             const addToCartBtn = product.locator('.add-to-cart').first();
             await addToCartBtn.click();
 
-            console.log(`Product at index ${index} added to cart.`);
+            Logger.info(`Product at index ${index} added to cart.`);
 
             if (i < selected.length - 1) {
                 await this.continueShoppingBtn.click();
@@ -194,7 +195,7 @@ export class ProductPage extends BasePage {
             await expect(brandElement).toBeVisible();
             const brandName = await brandElement.textContent();
             //console lagya h brand name ke liye hatana hai 
-            console.log(brandName);
+            Logger.info(`Found brand name: ${brandName}`);
         }
     }
     async clickBrand(brandName: string): Promise<void> {

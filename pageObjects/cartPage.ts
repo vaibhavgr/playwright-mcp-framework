@@ -1,5 +1,6 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { BasePage } from "./basePage"; // 1. Import BasePage
+import { Logger } from "@utils/Logger";
 
 export interface CartProductDetails {
     name: string;
@@ -108,7 +109,7 @@ export class CartPage extends BasePage {
         const productNames = productsData.map(p => p.name);
         //if want to fetch everything at once
        //const detailedProductsList = (await this.getCartProductsDetails()).map(p => `${p.name} - ${p.price} - Qty: ${p.quantity}`);
-        console.log(productNames);
+        Logger.info("Verified products in cart: " + JSON.stringify(productNames));
         expect(productNames).toContain(expectedProductName);
     }
 }

@@ -2,6 +2,7 @@ import { Locator, Page, expect } from "@playwright/test";
 import { User } from "@data/userData";
 import { BasePage } from "./basePage";
 import { CartProductDetails } from "./cartPage";
+import { Logger } from "@utils/Logger";
 
 export class CheckoutPage extends BasePage {
     readonly checkoutModalRegisterLoginBtn: Locator;
@@ -65,22 +66,24 @@ export class CheckoutPage extends BasePage {
 
         const cityStateZip = deliveryaddress[5].replace(/\s+/g, ' ').trim();
 
-        console.log('--- EXPECTED (User Data Inputted) ---');
-        console.log(`Name: ${user.firstName} ${user.lastName}`);
-        console.log(`Company: ${user.company}`);
-        console.log(`Address: ${user.address}`);
-        console.log(`City/State/Zip: ${user.city} ${user.state} ${user.zipcode}`);
-        console.log(`Country: India`);
-        console.log(`Mobile: ${user.mobile}`);
+        const logMsg = `
+--- EXPECTED (User Data Inputted) ---
+Name: ${user.firstName} ${user.lastName}
+Company: ${user.company}
+Address: ${user.address}
+City/State/Zip: ${user.city} ${user.state} ${user.zipcode}
+Country: India
+Mobile: ${user.mobile}
 
-        console.log('\n--- ACTUAL (From Checkout Page) ---');
-        console.log(`Name: ${deliveryaddress[1]}`);
-        console.log(`Company: ${deliveryaddress[2]}`);
-        console.log(`Address: ${deliveryaddress[3]}`);
-        console.log(`City/State/Zip: ${cityStateZip}`);
-        console.log(`Country: ${deliveryaddress[6]}`);
-        console.log(`Mobile: ${deliveryaddress[7]}`);
-        console.log('-----------------------------------\n');
+--- ACTUAL (From Checkout Page) ---
+Name: ${deliveryaddress[1]}
+Company: ${deliveryaddress[2]}
+Address: ${deliveryaddress[3]}
+City/State/Zip: ${cityStateZip}
+Country: ${deliveryaddress[6]}
+Mobile: ${deliveryaddress[7]}
+-----------------------------------`;
+        Logger.info(logMsg);
 
         expect(deliveryaddress[1]).toContain(`${user.firstName} ${user.lastName}`);
         expect(deliveryaddress[2]).toContain(user.company);
@@ -110,7 +113,7 @@ export class CheckoutPage extends BasePage {
         }
         let finalGrandTotal = await this.grandTotalAmount.innerText();
         finalGrandTotal = finalGrandTotal.replace('Rs. ', '').trim();
-        console.log('yeh arha hai', finalGrandTotal);
+        Logger.info(`Grand Total verified: ${finalGrandTotal}`);
         return finalGrandTotal;
 
     }

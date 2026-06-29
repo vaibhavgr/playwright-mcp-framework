@@ -2,6 +2,7 @@ import { Locator, Page, expect } from "@playwright/test";
 import { PaymentDetails } from '@data/paymentData';
 import fs from 'fs';
 import { BasePage } from "./basePage";
+import { Logger } from "@utils/Logger";
 
 export class PaymentPage extends BasePage {
     readonly cardNumber: Locator;
@@ -48,7 +49,7 @@ export class PaymentPage extends BasePage {
         const download = await downloadPromise;
         const filePath = await download.path();
         const filecontent = fs.readFileSync(filePath, 'utf-8')
-        console.log(filecontent)
+        Logger.info('Invoice file content: ' + filecontent);
         expect(filecontent).toContain(`Hi ${userName} ${lastName}, Your total purchase amount is ${grandTotal}`);
     }
 }

@@ -1,6 +1,7 @@
 import { test } from '@fixtures/baseTest';
 import { expect } from '@playwright/test';
 import { hasUncaughtExceptionCaptureCallback } from 'process';
+import { Logger } from '@utils/Logger';
 
 test.describe('API Testing - Products using ApiUtils', () => {
     test('TC_API_01_Get - all product list', async ({ apiUtil }) => {
@@ -43,10 +44,8 @@ test.describe('API Testing - Products using ApiUtils', () => {
         expect(response.products, 'products key should be defined').toBeDefined();
         expect(Array.isArray(response.products), 'products shou ld be an array').toBe(true);
         expect(response.products.length, 'products list should not be empty').toBeGreaterThan(0)
-        //.some() array ke har item ko ek-ek karke r me daalta hai.
         const hasMatchingProduct = response.products.some(
             (r: any) => {
-                console.log(r)
                 return r.name.toLowerCase().includes(searchProduct.toLowerCase())
             }
             /**
@@ -58,7 +57,7 @@ test.describe('API Testing - Products using ApiUtils', () => {
              *          .includes(searchProduct.toLowerCase())})
              */
         )
-        console.log(hasMatchingProduct)
+        Logger.info(`Has matching product: ${hasMatchingProduct}`);
         // Assert that the result is indeed true
         expect(hasMatchingProduct, 'Search result should contain the keyword').toBe(true)
 
