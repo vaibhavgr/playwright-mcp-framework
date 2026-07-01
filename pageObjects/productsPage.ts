@@ -174,9 +174,11 @@ export class ProductPage extends BasePage {
             Logger.info(`Product at index ${index} added to cart.`);
 
             if (i < selected.length - 1) {
+                await this.continueShoppingBtn.waitFor({ state: 'visible' });
                 await this.continueShoppingBtn.click();
                 await this.continueShoppingBtn.waitFor({ state: 'hidden' });
             } else {
+                await this.viewCartLinkModal.waitFor({ state: 'visible' });
                 await Promise.all([
                     this.page.waitForURL('**/view_cart', { waitUntil: 'domcontentloaded' }),
                     this.viewCartLinkModal.click()
@@ -250,6 +252,7 @@ export class ProductPage extends BasePage {
             await product.scrollIntoViewIfNeeded();
             const addToCartBtn = product.locator('.add-to-cart').first();
             await addToCartBtn.click();
+            await this.continueShoppingBtn.waitFor({ state: 'visible' });
             await this.continueShoppingBtn.click();
             await this.continueShoppingBtn.waitFor({ state: 'hidden' });
         }
